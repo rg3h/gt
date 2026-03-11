@@ -111,7 +111,6 @@ a:hover {
   border-radius: 3px;
   border: solid 1px blue;
   box-shadow: 3px 3px 3px rgba(100, 100, 100, 0.5);
-
   text-decoration: none;
 }
 
@@ -121,9 +120,12 @@ a:hover {
   margin: 0;
   padding: 0;
   text-decoration: none;
+  transition-duration: 0;
 }
 
 .aNoDecoration:hover {
+  border-radius: 0;
+  border: none;
   box-shadow: none;
 }
 

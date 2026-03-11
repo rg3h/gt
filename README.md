@@ -23,7 +23,7 @@
     to add, delete, and list your repos. There is ample error checking,
     initialization, and coordination with your local and remote repos.
     <br><br>
-    Check out the documentation to see how comfortable it is to 
+    Check out the documentation to see how comfortable it is to
     create, delete, and list your repos.  Later this will grow to make
     git commands easier too.
     <br><br>
@@ -41,7 +41,7 @@ gt delRepo myOldRepo [--yes]
 gt listRepos [-s name|date|public|private]</pre>
     -->
     <br>
-        <a href="https://github.com/rg3h/gt/raw/refs/heads/main/gt.zip">
+    <a href="https://github.com/rg3h/gt/raw/refs/heads/main/gt.zip">
       <img align=left src="./public/assets/images/downloadButton.png"/>
     </a>
     <a href="https://rg3h.github.io/gt/index.html">
