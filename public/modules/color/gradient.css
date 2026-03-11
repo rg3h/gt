@@ -1,0 +1,289 @@
+/** gradient.css **/
+
+:root {
+  --blackGradient: linear-gradient(
+      315deg,
+      hsl(0deg 0% 0%) 0%,
+      hsl(60deg 5% 15%) 28%,
+      hsl(60deg 3% 29%) 46%,
+      hsl(25deg 4% 20%) 65%,
+      hsl(0deg 3% 11%) 100%
+  );
+
+  --whiteGradient: linear-gradient(
+      315deg,
+      hsl(0deg 0% 92%) 0%,
+      hsl(344deg 0% 93%) 25%,
+      hsl(344deg 0% 94%) 35%,
+      hsl(344deg 0% 94%) 43%,
+      hsl(344deg 0% 95%) 49%,
+      hsl(344deg 0% 96%) 55%,
+      hsl(344deg 0% 97%) 62%,
+      hsl(344deg 0% 97%) 71%,
+      hsl(344deg 0% 98%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --blackGradient2: linear-gradient(
+      315deg,
+      hsl(0deg 0% 0%) 0%,
+      hsl(344deg 0% 47%) 69%,
+      hsl(0deg 0% 100%) 100%
+  );
+
+  --redGradient: linear-gradient(
+      315deg,
+      hsl(0deg 100% 79%) 0%,
+      hsl(1deg 100% 81%) 25%,
+      hsl(1deg 100% 83%) 35%,
+      hsl(2deg 100% 86%) 43%,
+      hsl(2deg 100% 88%) 49%,
+      hsl(2deg 100% 90%) 55%,
+      hsl(2deg 100% 92%) 62%,
+      hsl(3deg 100% 95%) 71%,
+      hsl(3deg 87% 97%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --orangeGradient: linear-gradient(
+      315deg,
+      hsl(24deg 100% 71%) 0%,
+      hsl(24deg 100% 74%) 25%,
+      hsl(24deg 100% 77%) 35%,
+      hsl(24deg 100% 80%) 43%,
+      hsl(24deg 100% 83%) 49%,
+      hsl(24deg 100% 87%) 55%,
+      hsl(23deg 100% 90%) 62%,
+      hsl(23deg 100% 93%) 71%,
+      hsl(22deg 96% 96%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --yellowGradient: linear-gradient(
+      315deg,
+      hsl(53deg 100% 71%) 0%,
+      hsl(53deg 100% 74%) 25%,
+      hsl(53deg 100% 78%) 35%,
+      hsl(52deg 100% 81%) 43%,
+      hsl(52deg 100% 84%) 49%,
+      hsl(51deg 100% 87%) 55%,
+      hsl(50deg 100% 90%) 62%,
+      hsl(49deg 100% 93%) 71%,
+      hsl(47deg 88% 96%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --lightGreenGradient: linear-gradient(
+      315deg,
+      hsl(135deg 100% 83%) 0%,
+      hsl(134deg 100% 85%) 25%,
+      hsl(133deg 99% 87%) 35%,
+      hsl(133deg 98% 89%) 43%,
+      hsl(132deg 97% 90%) 49%,
+      hsl(132deg 95% 92%) 55%,
+      hsl(131deg 90% 94%) 62%,
+      hsl(131deg 82% 96%) 71%,
+      hsl(130deg 64% 97%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --greenGradient: linear-gradient(
+      315deg,
+      hsl(131deg 98% 77%) 0%,
+      hsl(132deg 99% 79%) 25%,
+      hsl(133deg 100% 81%) 35%,
+      hsl(134deg 100% 83%) 43%,
+      hsl(136deg 100% 84%) 49%,
+      hsl(137deg 100% 86%) 55%,
+      hsl(138deg 100% 88%) 62%,
+      hsl(139deg 100% 90%) 71%,
+      hsl(140deg 100% 92%) 82%,
+      hsl(141deg 100% 94%) 100%
+  );
+
+  --cyanGradient: linear-gradient(
+      315deg,
+      hsl(176deg 100% 83%) 0%,
+      hsl(176deg 99% 85%) 25%,
+      hsl(176deg 99% 87%) 35%,
+      hsl(175deg 97% 89%) 43%,
+      hsl(175deg 96% 90%) 49%,
+      hsl(175deg 93% 92%) 55%,
+      hsl(175deg 88% 94%) 62%,
+      hsl(175deg 80% 96%) 71%,
+      hsl(174deg 62% 97%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --blueGradient: linear-gradient(
+      315deg,
+      hsl(206deg 100% 83%) 0%,
+      hsl(207deg 99% 85%) 25%,
+      hsl(207deg 98% 86%) 35%,
+      hsl(207deg 97% 88%) 43%,
+      hsl(208deg 95% 90%) 49%,
+      hsl(208deg 92% 92%) 55%,
+      hsl(208deg 87% 94%) 62%,
+      hsl(209deg 79% 95%) 71%,
+      hsl(209deg 62% 97%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --darkBlueGradient: linear-gradient(
+      315deg,
+      hsl(223deg 98% 77%) 0%,
+      hsl(222deg 99% 79%) 25%,
+      hsl(222deg 100% 81%) 35%,
+      hsl(221deg 100% 82%) 43%,
+      hsl(220deg 100% 84%) 49%,
+      hsl(220deg 100% 86%) 55%,
+      hsl(219deg 100% 88%) 62%,
+      hsl(219deg 100% 90%) 71%,
+      hsl(218deg 100% 92%) 82%,
+      hsl(218deg 100% 94%) 100%
+  );
+
+  --purpleGradient: linear-gradient(
+      315deg,
+      hsl(254deg 100% 83%) 0%,
+      hsl(255deg 100% 84%) 25%,
+      hsl(255deg 99% 86%) 35%,
+      hsl(256deg 98% 88%) 43%,
+      hsl(256deg 97% 90%) 49%,
+      hsl(257deg 94% 92%) 55%,
+      hsl(257deg 90% 93%) 62%,
+      hsl(258deg 83% 95%) 71%,
+      hsl(258deg 66% 97%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --magentaGradient: linear-gradient(
+      315deg,
+      hsl(308deg 100% 83%) 0%,
+      hsl(308deg 100% 85%) 25%,
+      hsl(309deg 100% 86%) 35%,
+      hsl(309deg 100% 88%) 43%,
+      hsl(309deg 100% 90%) 49%,
+      hsl(310deg 100% 92%) 55%,
+      hsl(311deg 97% 94%) 62%,
+      hsl(311deg 89% 95%) 71%,
+      hsl(311deg 70% 97%) 82%,
+      hsl(0deg 0% 99%) 100%
+  );
+
+  --threeWhiteGradient: linear-gradient(
+      315deg,
+      hsl(0deg 0% 87%) 0%,
+      hsl(344deg 0% 89%) 23%,
+      hsl(344deg 0% 92%) 34%,
+      hsl(344deg 0% 95%) 41%,
+      hsl(344deg 0% 97%) 47%,
+      hsl(0deg 0% 100%) 52%,
+      hsl(344deg 0% 97%) 58%,
+      hsl(344deg 0% 95%) 64%,
+      hsl(344deg 0% 92%) 73%,
+      hsl(344deg 0% 89%) 84%,
+      hsl(0deg 0% 87%) 100%
+  );
+
+  --threeRedGradient: linear-gradient(
+      315deg,
+      hsl(0deg 100% 58%) 0%,
+      hsl(7deg 100% 66%) 23%,
+      hsl(10deg 100% 74%) 34%,
+      hsl(11deg 100% 82%) 41%,
+      hsl(12deg 100% 90%) 47%,
+      hsl(0deg 0% 99%) 52%,
+      hsl(3deg 100% 95%) 58%,
+      hsl(3deg 100% 90%) 64%,
+      hsl(2deg 100% 85%) 73%,
+      hsl(1deg 100% 81%) 84%,
+      hsl(0deg 100% 77%) 100%
+  );
+
+  --threeBlueGradient: linear-gradient(
+      315deg,
+      hsl(200deg 100% 57%) 0%,
+      hsl(205deg 100% 71%) 23%,
+      hsl(207deg 99% 80%) 34%,
+      hsl(209deg 96% 87%) 41%,
+      hsl(210deg 88% 93%) 47%,
+      hsl(0deg 0% 99%) 52%,
+      hsl(210deg 74% 96%) 58%,
+      hsl(210deg 89% 93%) 64%,
+      hsl(209deg 95% 91%) 73%,
+      hsl(209deg 98% 88%) 84%,
+      hsl(208deg 100% 85%) 100%
+  );
+
+  --redWhiteBlueGradient: linear-gradient(
+      315deg,
+      hsl(220deg 100% 51%) 0%,
+      hsl(235deg 100% 71%) 23%,
+      hsl(241deg 100% 80%) 34%,
+      hsl(245deg 100% 86%) 41%,
+      hsl(248deg 100% 93%) 47%,
+      hsl(0deg 0% 100%) 52%,
+      hsl(15deg 100% 90%) 58%,
+      hsl(14deg 100% 80%) 64%,
+      hsl(12deg 100% 70%) 73%,
+      hsl(10deg 100% 61%) 84%,
+      hsl(0deg 100% 48%) 100%
+  );
+
+  --redWhiteBlue01Gradient: linear-gradient(
+      315deg,
+      hsl(220deg 100% 51%) 0%,
+      hsl(236deg 100% 72%) 36%,
+      hsl(242deg 100% 81%) 47%,
+      hsl(246deg 100% 88%) 49%,
+      hsl(249deg 100% 96%) 49%,
+      hsl(16deg 100% 94%) 50%,
+      hsl(14deg 100% 83%) 54%,
+      hsl(13deg 100% 73%) 63%,
+      hsl(10deg 100% 62%) 78%,
+      hsl(0deg 100% 48%) 100%
+  );
+
+  --redWhiteBlue02Gradient: linear-gradient(
+      315deg,
+      hsl(220deg 100% 51%) 0%,
+      hsl(236deg 100% 72%) 23%,
+      hsl(242deg 100% 81%) 34%,
+      hsl(246deg 100% 88%) 42%,
+      hsl(249deg 100% 96%) 47%,
+      hsl(16deg 100% 94%) 53%,
+      hsl(14deg 100% 83%) 60%,
+      hsl(13deg 100% 73%) 69%,
+      hsl(10deg 100% 62%) 82%,
+      hsl(0deg 100% 48%) 100%
+  );
+
+  --redWhiteBlue03Gradient: linear-gradient(
+      315deg,
+      hsl(220deg 100% 51%) 0%,
+      hsl(236deg 100% 72%) 11%,
+      hsl(242deg 100% 81%) 22%,
+      hsl(246deg 100% 88%) 33%,
+      hsl(249deg 100% 96%) 44%,
+      hsl(16deg 100% 94%) 56%,
+      hsl(14deg 100% 83%) 67%,
+      hsl(13deg 100% 73%) 78%,
+      hsl(10deg 100% 62%) 89%,
+      hsl(0deg 100% 48%) 100%
+  );
+
+  --redGreenBlueGradient: linear-gradient(
+      315deg,
+      hsl(220deg 100% 51%) 0%,
+      hsl(205deg 100% 50%) 19%,
+      hsl(196deg 100% 50%) 30%,
+      hsl(182deg 100% 44%) 37%,
+      hsl(156deg 100% 48%) 44%,
+      hsl(104deg 84% 59%) 50%,
+      hsl(70deg 100% 39%) 56%,
+      hsl(46deg 100% 41%) 65%,
+      hsl(27deg 100% 46%) 78%,
+      hsl(0deg 100% 48%) 100%
+  );
+}

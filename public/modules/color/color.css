@@ -1,0 +1,115 @@
+/** color.css **/
+
+:root {
+  --white:                 rgb(255, 255, 255);
+  --black:                 rgb(  0,   0,   0);
+  --almostBlack:           rgb( 25,  25,  25);
+  --almostWhite:           rgb(250, 250, 250);
+
+  --grey250:               rgb(250, 250, 250);
+  --grey240:               rgb(240, 240, 240);
+  --grey230:               rgb(230, 230, 230);
+  --grey220:               rgb(220, 220, 220);
+  --grey210:               rgb(210, 210, 210);
+  --grey200:               rgb(200, 200, 200);
+  --grey190:               rgb(190, 190, 190);
+  --grey180:               rgb(180, 180, 180);
+  --grey170:               rgb(170, 170, 170);
+  --grey160:               rgb(160, 160, 160);
+  --grey150:               rgb(150, 150, 150);
+  --grey140:               rgb(140, 140, 140);
+  --grey130:               rgb(130, 130, 130);
+  --grey120:               rgb(120, 120, 120);
+  --grey110:               rgb(110, 110, 110);
+  --grey100:               rgb(100, 100, 100);
+  --grey90:                rgb( 90,  90,  90);
+  --grey80:                rgb( 80,  80,  80);
+  --grey70:                rgb( 70,  70,  70);
+  --grey60:                rgb( 60,  60,  60);
+  --grey50:                rgb( 50,  50,  50);
+  --grey40:                rgb( 40,  40,  40);
+  --grey30:                rgb( 30,  30,  30);
+  --grey20:                rgb( 20,  20,  20);
+
+  --extraLightBlue:        rgb(240, 245, 255);
+  --lightBlue:             rgb(155, 195, 255);
+  --blue:                  rgb(  0,  90, 255);
+  --mediumBlue:            rgb( 35,  60, 245);
+  --darkBlue:              rgb(  0,   0, 225);
+  --extraDarkBlue:         rgb(  0,  35, 130);
+
+  --blue1:                 rgb(110, 160, 255);
+  --blue2:                 rgb( 75, 130, 220);
+  --blue3:                 rgb( 50, 100, 200);
+
+  --steelBlue:             rgb( 10, 100, 190);
+  --blueGreen:             rgb(  0, 175, 225);
+
+  --extraExtraLightGreen:  rgb(240, 255, 240);
+  --extraLightGreen:       rgb(200, 250, 200);
+  --lightGreen:            rgb( 50, 190,  80);
+  --green:                 rgb( 45, 145,  65);
+  --mediumGreen:           rgb(  0, 100,   0);
+  --darkGreen:             rgb(  0,  60,   0);
+
+  --orange:                rgb(255, 110,   0);
+  --darkOrange:            rgb(220, 110,   0);
+
+  --extraLightPurple:      rgb(245, 230, 255);
+  --lightPurple:           rgb(170, 115, 220);
+  --purple:                rgb(125,   0, 255);
+  --mediumPurple:          rgb(100,   0, 200);
+  --darkPurple:            rgb( 70,   0, 140);
+
+  --purple1:               rgb(210, 165, 255);
+  --purple2:               rgb(130,  70, 180);
+
+  --inactiveBgColor:       rgb(230, 230, 230);
+  --inactiveFgColor:       rgb(150, 150, 150);
+
+  --borderColor:           var(--grey200);
+  --border:                solid 1px var(--borderColor);
+  --borderRadius:          5px;
+  --borderTransparent:     solid 1px transparent;
+
+  --boxShadow:             3px 3px 3px rgba(100, 100, 100, 0.4);
+  --boxShadowHover:        7px 7px 5px rgba(100, 100, 100, 0.4);
+  --boxShadowNoAlpha:      3px 3px 3px var(--grey200);
+  --boxShadowBottom:       0px 3px 3px rgba(100, 100, 100, 0.4);
+  --boxShadowTransparent:  3px 3px 3px transparent;
+
+  --textWhiteShadowColor: rgba(250, 250, 250, 0.75);
+  --textWhiteShadow:
+      5px  5px 5px var(--textWhiteShadowColor),
+      5px -5px 5px var(--textWhiteShadowColor),
+     -5px -5px 5px var(--textWhiteShadowColor),
+     -5px  5px 5px var(--textWhiteShadowColor);
+
+  --textBlackShadowColor: rgba(50, 50, 50, 0.75);
+  --textBlackShadow:
+      5px  5px 5px var(--textBlackShadowColor),
+      5px -5px 5px var(--textBlackShadowColor),
+     -5px -5px 5px var(--textBlackShadowColor),
+     -5px  5px 5px var(--textBlackShadowColor);
+
+  --shadowColorLow: 0deg 0% 0%;
+  --shadowColor: 0deg 0% 74%;
+  --shadowLow:
+    0.6px 0.7px 0.8px hsl(var(--shadowColorLow) / 0.11),
+    0.9px 0.9px 1.1px -2px hsl(var(--shadowColorLow) / 0.08),
+    2.1px 2.3px 2.8px -4.1px hsl(var(--shadowColorLow) / 0.05);
+  --shadowMedium:
+    0.6px 0.7px 0.8px hsl(var(--shadowColor) / 0.39),
+    1.3px 1.4px 1.7px -1.3px hsl(var(--shadowColor) / 0.32),
+    3.9px 4.2px 5.1px -2.7px hsl(var(--shadowColor) / 0.24),
+    10.7px 11.5px 14px -4.1px hsl(var(--shadowColor) / 0.17);
+  --shadowHigh:
+    0.6px 0.7px 0.8px hsl(var(--shadowColor) / 0.36),
+    1.5px 1.6px 2px -0.6px hsl(var(--shadowColor) / 0.33),
+    2.9px 3.1px 3.8px -1.2px hsl(var(--shadowColor) / 0.29),
+    5.5px 5.9px 7.2px -1.7px hsl(var(--shadowColor) / 0.26),
+    10px 10.8px 13.1px -2.3px hsl(var(--shadowColor) / 0.22),
+    17.4px 18.7px 22.8px -2.9px hsl(var(--shadowColor) / 0.19),
+    28.1px 30.3px 36.9px -3.5px hsl(var(--shadowColor) / 0.16),
+    43.1px 46.4px 56.5px -4.1px hsl(var(--shadowColor) / 0.12);
+}

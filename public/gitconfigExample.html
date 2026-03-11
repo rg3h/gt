@@ -1,0 +1,115 @@
+<pre>
+# @fileoverview Rich Gossweiler's git config
+
+[alias]
+  # refresh the local project/repo
+  refresh = "status && git pull && git status"
+
+  # the acronym stands for "subtree add"
+  # reversed the order so:
+  # git sta https://github.com/m3dley/m3dleyComponents.git components
+  sta = "!f() { git subtree add --prefix ${GIT_PREFIX:-.}$2 $1 main --squash; }; f"
+
+  # the acronym stands for "subtree delete"
+  # note this is a little bit scary as we have to use -r
+  # cd dev/client git std components
+  std = "!f() { cd -- ${GIT_PREFIX:-.}; git rm -r $1; }; f"
+
+  # the acronym stands for "subtree push"
+  # you must cd into the subdirectory you want to push
+  # cd dev/client/components
+  # git stp https://github.com/m3dley/m3dleyComponents.git
+  stp = "!f() { git subtree push --prefix ${GIT_PREFIX:-.} $1 main; }; f"
+
+  # the acronym stands for "subtree update"
+  # git stu https://github.com/m3dley/m3dleyComponents.git components
+  stu = "!f() { git subtree pull --prefix ${GIT_PREFIX:-.}$2 $1 main --squash; }; f"
+
+[branch]
+  sort = -committerdate
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow bold
+	remote = green bold
+
+[color "diff"]
+	frag = magenta bold
+	meta = yellow bold
+	new = green bold
+	old = red bold
+
+[color "status"]
+	added = green bold
+	changed = cyan bold
+	untracked = yellow bold
+
+[column]
+  ui = auto
+
+[core]
+	autocrlf = true
+	filemode = false
+	safecrlf = false
+
+  # windows
+	editor = "'C:/Program Files/Emacs/emacs-29.1/bin/runemacs.exe'"
+  excludesfile = C:\\rcg\\.gitignore
+
+  # WSL
+  # editor = '/mnt/c/Program Files/Emacs/emacs-29.1/bin/runemacs.exe'
+	# excludesfile = /mnt/c/rcg/.gitignore
+
+[credential]
+	helper = store
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+
+[fetch]
+  all = true
+  prune = true
+  pruneTags = true
+
+[help]
+  autocorrect = prompt
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = false
+
+[push]
+  autoSetupRemote = true
+	default = simple
+  followTags = true
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+[safe]
+  # deal with change of ownership on NAS
+	directory = *
+
+[status]
+	showUntrackedFiles = all
+
+[submodule]
+	recurse = true
+
+[tag]
+  sort = version:refname
+
+[user]
+	email = rich.gossweiler@gmail.com
+	name = rg3h
+</pre>

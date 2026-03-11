@@ -1,0 +1,240 @@
+<!DOCTYPE html> <!-- gtInstallationInstructions.html -->
+<html lang="en">
+<head>
+<!--             _
+   _        __ _| |_
+   Vo--o   / _` | __|  gt: an extensible set of tools to
+\ / |--'  | (_| | |_       simplify git and github repos
+ V_ \\     \__, |\__|
+           |___/
+-->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>gt installation instructions</title>
+  <link rel="apple-touch-icon" href="./assets/images/logo.png"/>
+  <link rel="icon"             href="./assets/images/logo.png"/>
+
+  <style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  accent-color: rgb( 10, 100, 190);
+  background-color: rgb(240, 245, 255);
+  color: black;
+  height: 100%;
+  margin: 0;
+  min-height: 100%;
+  min-width: 100%;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: none;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: helvetica;
+  height: 100%;
+  line-height: 1.5;
+  min-height: 100%;
+  min-width: 100%;
+  overflow: auto;
+  text-rendering: optimizelegibility;
+  text-size-adjust: none;
+}
+
+/* anchor */
+a {
+  border: solid 1px transparent;
+  border-radius: 0;
+  cursor: pointer;
+  padding: 2px;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  transition-duration: 0.25s;
+  transition-property: border, box-shadow;
+  transition-timing-function: ease-in-out;
+  width: fit-content;
+}
+
+a:hover {
+  border-radius: 3px;
+  border: solid 1px blue;
+  box-shadow: 3px 3px 3px rgba(100, 100, 100, 0.5);
+
+  text-decoration: none;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+h3 {
+  font-size: 1.0rem;
+  margin-top: 1.5rem;
+}
+
+pre {
+  line-height: 0.9rem;
+}
+
+.titleContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.75rem;
+}
+
+.subTitle {
+  color: rgb(80, 80, 80);
+  font-size: 0.8rem;
+}
+
+.version {
+  color: rgb(120, 120, 120);
+  font-size: 0.7rem;
+}
+
+.middle {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px rgba(100, 100, 100, 0.4);
+  height: 100%;
+  margin: 1rem 0 2rem 0;
+  max-width: 800px;
+  overflow: auto;
+  padding: 1rem;
+  width: 100%;
+}
+  </style>
+</head>
+
+<body>
+  <div class="middle">
+  <div class="titleContainer">
+    <div class="title">gt Installation Instructions</div>
+    <div class="subTitle">
+      An extensible set of tools to simplify git and github repos
+    </div>
+    <div class="version">version 1.0.0</div>
+  </div> <!-- titleContainer -->
+
+  <h2>Installation</h2>
+  You will need to install the following apps:
+  <ul>
+    <li><a href="https://git-scm.com/install/">git</a>
+      (you will also need to set up a
+      <a href=".gitconfigExample.html" download>.gitconfig</a> and
+      <a href=".gitignoreExample.html" download>.gitignore</a>)
+    </li>
+    <li><a href="https://github.com/">create a github account</a></li>
+    <li><a href="https://cli.github.com/">gh for github</a></li>
+    <li>zsh and sed  (on windows I
+        use <a href="https://www.cygwin.com">cygwin</a>)
+    </li>
+    <li>download the <a href="../gt.zip" download>gt.zip</a>
+        file and unzip it.
+    </li>
+    <li>Move the gt directory into your execution path
+       (like your bin/ directory)
+       <br>
+       (note for windows you might need to edit your PATH environment
+        variable)
+    </li>
+  </ul>
+  <h2>Commands</h2>
+  gt supports the following commands:
+
+  <h3>gt</h3>
+<pre>
+┌────────────────────────────────────────────────────────────────────┐
+│ gt (v1.0.0): an easy-to-use tool for git and github                │
+│ example: gt addRepo myNewRepo --private                            │
+├────────────────────────────────────────────────────────────────────┤
+│ help      | --help     | -h | -? .. show this help                 │
+│ addRepo   | makeRepo   | ar | mr... add a new repo                 │
+│ delRepo   | removeRepo | rr | dr... delete a repo from github      │
+│ listRepos | lr..................... list your gitHub repos         │
+│ version   | -v..................... show the version (v1.0.0)      │
+└────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>addRepo (ar)</h3>
+<pre>
+┌────────────────────────────────────────────────────────────────────┐
+│ gt [addRepo | ar] remoteRepoName [localRepoName] [--private]       │
+├────────────────────────────────────────────────────────────────────┤
+│ adds a github remote repo and a local repo directory               │
+│   --help | -h | -? issues this help                                │
+│   --private adds a private repo (default is public)                │
+│                                                                    │
+│ examples:                                                          │
+│  gt addRepo myRepo    # add a local and remote repo named myRepo   │
+│  gt addRepo myRepo .  # add a remote w/ local repo in current dir  │
+│  gt addRepo myRepo --private                                       │
+│  gt addRepo myRepo myLocalRepoName                                 │
+│  gt addRepo myRepo myLocalRepoName --private                       │
+└────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>delRepo (dr)</h3>
+<pre>
+┌────────────────────────────────────────────────────────────────────┐
+│ gt [delRepo | dr] remoteRepoName [--yes]                           │
+├────────────────────────────────────────────────────────────────────┤
+│ deletes the remote repo but does NOT delete the local repo dir     │
+│   --help | -h | -? issues this help                                │
+│   --yes skips the confirmation check                               │
+│                                                                    │
+│ examples:                                                          │
+│  gt delRepo myRepo  # deletes the remote repo named myRepo         │
+│  gt delRepo myRepo --yes # deletes remote repo w/o confirming      │
+└────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h3>listRepos (lr)</h3>
+<pre>
+┌────────────────────────────────────────────────────────────────────┐
+│ gt [listRepos | lr] [--sort [date|name|private|public]]            │
+├────────────────────────────────────────────────────────────────────┤
+│ lists up to 100 of your remote repos in a table                    │
+│   --help | -h | -?  issues this help                               │
+│   --sort | -s [date|name|private] sorts by one of these fields     │
+│                                                                    │
+│ examples:                                                          │
+│  gt listRepos         # lists your repos sorted by date            │
+│  gt lr --sort name    # lists your repos sorted by name            │
+│  gt lr --sort private # lists your repos with private ones first   │
+│  gt lr --sort public  # lists your repos with public ones first    │
+└────────────────────────────────────────────────────────────────────┘
+</pre>
+
+  <h2>Extensible zsh Architecture</h2>
+  zsh is a pain. But I've tried to write it so that it is modular.
+  The structure is:
+  <pre>
+    gt.sh
+    gtAddRepo.sh
+    gtDelRepo.sh
+    gtListRepos.sh
+    modules/
+      gtCharCodes.sh   -- TTY character controls to create the ascii boxes
+      gtDebug.sh       -- debugging that can be turned on to see details
+      gtGetOwner.sh    -- getOwner is a gh command used internally by gt
+      gtPrintBox.sh    -- prints the white and red boxes around text
+      gtStatusCodes.sh -- the status codes as messages
+      gtUtil.sh        -- utility functions</pre>
+  </div> <!-- middle -->
+</body>
+</html>

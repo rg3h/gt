@@ -1,0 +1,73 @@
+/** index.css **/
+h3 {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 2rem 0 0.5rem 0;
+}
+
+.shellStyle {
+  background: black;
+  color: rgb(200, 200, 200);
+  font-size: 0.9rem;
+  margin: 1rem 0 1rem 0;
+  padding: 0.5rem 0.5rem 0rem 0.5rem;
+  width: 100%;
+}
+
+.orange { color: orange; }
+.red { color: red; }
+.teal { color: teal; }
+.white { color: white; }
+.yellow { color: yellow; }
+
+.centered {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.directoryBox {
+  background: white;
+  border: var(--border);
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.titleContainer {
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.titleLeft {
+}
+
+.titleMiddle {
+  display: block;
+  line-height: 1.5rem;
+}
+
+.titleRight {
+  text-align: right;
+}
+
+.titleImg {
+  margin-right: 1rem;
+  width: 200px;
+}
+
+.welcomeBanner {
+  color: rgb(0, 160, 50);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* detect narrow */
+@media screen and (max-width: 600px) {
+  .titleImg {height: auto; width: 64px; }
+}

@@ -1,0 +1,16 @@
+/** 404.css **/
+body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.errorMsg {
+  margin-top: -2rem;
+}
+
+.titleDate {
+  font-size: 0.75rem;
+  margin-top: 2rem;
+}

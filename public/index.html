@@ -1,0 +1,214 @@
+<!DOCTYPE html> <!-- index.html -->
+<html lang="en">
+<head>
+<!--             _
+   _        __ _| |_
+   Vo--o   / _` | __|  gt: an extensible set of tools to
+\ / |--'  | (_| | |_       simplify git and github repos
+ V_ \\     \__, |\__|
+           |___/
+-->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>gt</title>
+  <meta name="description"                  content="gt"/>
+  <meta name="mobile-web-app-capable"       content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="msapplication-tap-highlight"  content="no"  />
+  <meta name="description"                  content="gt"/>
+  <meta name="theme-color"                  content="#EFF4FF">
+  <meta property="og:title"                 content="gt">
+  <meta property="og:description"           content="gt">
+  <meta property="og:image"                 content="./assets/images/logo.png">
+  <meta property="og:url"                   content="www.gt.com">
+
+  <link rel="apple-touch-icon" href="./assets/images/logo.png"/>
+  <link rel="icon"             href="./assets/images/logo.png"/>
+  <link rel="stylesheet"       href="./assets/fonts/monaSans/monaSans.css"/>
+  <link rel="stylesheet"       href="./modules/default/reset.css"/>
+  <link rel="stylesheet"       href="./modules/color/color.css"/>
+  <link rel="stylesheet"       href="./modules/default/default.css"/>
+  <link rel="stylesheet"       href="./index.css"/>
+  <script type="module"        src="./modules/default/main.js"></script>
+</head>
+
+<body>
+  <div class="middle">
+  <div class="titleContainer">
+    <div class="titleLeft">
+      <img class="titleImg" src="./assets/images/logo.png" alt="logo" />
+    </div>
+    <div class="titleMiddle">
+      <div class="titleText">gt</div>
+      <div class="subTitle">
+        An extensible set of tools to simplify git and github repos
+        <br>
+        <span class="titleVersion">version goes here</span>
+      </div>
+    </div>
+    <div class="titleRight">
+      <div class="titleDate"></div>
+    </div>
+  </div> <!-- titleContainer -->
+
+  Git and github are repository tools, but can be complicated to learn
+  and use. <pre>gt</pre> is an extensible set of cross-platform,
+  command-line tools thsat make it very easy to
+  add, delete, and list repos.
+  <br><br>
+
+  For example:<br>
+  <pre class="shellStyle">
+  <span class=white>$> gt addRepo myNewRepo</span>
+  created the local repository: .
+  created the remote public repo: https://github.com/rg3h/myNewRepo
+
+  $>  :: do some git stuff, then decide you don't like the repo
+
+  <span class=white>$> gt delrepo myNewRepo</span>
+  ? Type rg3h/myNewRepo to confirm deletion: <span class=teal>rg3h/myNewRepo</span>
+  ✓ Deleted repository rg3h/myNewRepo
+  you may need to delete the local .git repo for myNewRepo
+  <span class=white>$> rm -rf .git</span>
+  </pre>
+  <br><br>
+
+  And if you try to do something wrong, like try to add an already
+  existing repo:
+  <pre class="shellStyle">
+  $> <span class=white>gt addRepo someRepo</span>
+  created the local repository: someRepo
+  created the remote public repo: https://github.com/rg3h/someRepo
+
+  $> <span class=white>gt addRepo someRepo</span>
+  <span class=red>
+┌────────────────────────────────────────────────────────────────────┐
+│ <span class=orange>&#9888;</span> Error: github repo already exists: rg3h/someRepo                │
+└────────────────────────────────────────────────────────────────────┘
+  </span></pre>
+
+
+  <h2>Description</h2>
+  git creates a local repo in a .git directory. Github provides a
+  remote, cloud-based repository so that local repositories can be
+  backed up off of the local computer and so that it is easier to
+  share work with a team or with the world.
+  <br><br>
+  But the set of commands, capabilities, and lack of a consistent
+  model make git/github difficult to understand.
+  <br>
+  <b>gt</b> adopts a simple model, eventually aiming for a <b>Library</b>
+  model where you can check things in and out more fluidly. For now it
+  helps manage entire repos as entities, dealing with them like you
+  deal with directories on your computer. You can:
+  <ul>
+    <li>gt addRepo -- add a local and remote repo</li>
+    <li>gt delRepo -- delete a remote repo but not touching the local one</li>
+    <li>gt listRepos -- list all of your repos, sorted by date, name, public/private</li>
+  </ul>
+  <br>
+  gt also provides --help, error checking, and for delete, confirmation.
+  <br><br>
+
+  gt does this from the command line and uses cross-platform zsh
+  scripts written so that new commands can be added (for example. I'd
+  like to add gt sync to and gt details to get more information about
+  a particular repo).
+  <br><br>
+  gt handles a lot of the bureocracy when setting up a local and a
+  remote repo. It will check that the remote repo does not exist, it
+  will let you create it in place (.), use the same name as the remote
+  repo, or let you name the local one differently. You can create
+  public or private repos. gt will initialize the new local repo
+  setting the orgin to the remote. gt issues errors if something won't
+  work, making it really easy to add, list, and delete repos.
+  <br><br>
+  This is just the beginning. Eventually a more powerful
+  <b>library model</b> with recipes will later help you sync, check
+  things in and out, undo, see details and visualize your repositories.
+  <br><br>
+  The following describes how to install gt and then how each command
+  and zsh works.
+  <h2>Installation</h2>
+  I use gt on my Windows and linux boxes.
+  You will need to install the following apps:
+  <ul>
+    <li><a href="https://git-scm.com/install/">git</a>
+      (you will also need to set up a
+      <a href="gitconfigExample.html">.gitconfig</a> and
+      <a href="gitignoreExample.html">.gitignore</a>)
+    </li>
+    <li><a href="https://github.com/">create a github account</a></li>
+    <li><a href="https://cli.github.com/">gh for github</a></li>
+    <li>zsh and sed  (on windows I
+        use <a href="https://www.cygwin.com">cygwin</a>)
+    </li>
+    <li>download the <a href="../gt.zip" download>gt.zip</a>
+        file and unzip it.
+    </li>
+    <li>Move the gt directory into your execution path
+       (like your bin/ directory)
+       <br>
+       (note for windows you might need to edit your PATH environment
+        variable)
+    </li>
+  </ul>
+  <h2>Commands</h2>
+  gt supports the following commands:
+  <pre> gt, addRepo (ar), delRepo (dr), listRepos (lr)</pre>
+
+  <h3>gt</h3>
+  This is the "umbrella" script that parses the gt commands and sends
+  them to the appropriate module.
+  <br>
+  <div class="centered">
+    <img src="./assets/images/gtHelpScreenshot.jpg"/>
+  </div>
+  <h3>gt addRepo</h3>
+  gt addRepo (gt ar) adds a new remote and local repo. By default the repo is
+  public but you can provide a --private option. By default a sub
+  directory named the same as the remote repo is created, but you can
+  also name the local one something different or use "." to create it
+  in the current directory.
+  <br>
+  <div class="centered">
+    <img src="./assets/images/gtAddRepoHelpScreenshot.jpg"/>
+  </div>
+  <h3>gt delRepo</h3>
+  gt delRepo (gt dr) deletes a remote repo but does not do anything to
+  the local repo (just to be safe. You can rm -rf it). If the remote
+  repo does not exist, gt issues an error message. You can add --yes
+  to skip the confirmation.
+  <div class="centered">
+    <img src="./assets/images/gtDelRepoHelpScreenshot.jpg"/>
+  </div>
+  <h3>gt listRepos</h3>
+  gt listRepos (gt lr) lists all of your repos (up to 100), sorted by
+  date. You can change the sorting order to name or public/private.
+  <div class="centered">
+    <img src="./assets/images/gtListReposHelpScreenshot.jpg"/>
+  </div>
+  <h2>extensible zsh architecture</h2>
+  zsh is a pain. But I've tried to write it so that it is modular.
+  The structure is:
+  <pre>
+    gt.sh
+    gtAddRepo.sh
+    gtDelRepo.sh
+    gtListRepos.sh
+    modules/
+      gtCharCodes.sh   -- TTY character controls to create the ascii boxes
+      gtDebug.sh       -- debugging that can be turned on to see details
+      gtGetOwner.sh    -- getOwner is a gh command used internally by gt
+      gtPrintBox.sh    -- prints the white and red boxes around text
+      gtStatusCodes.sh -- the status codes as messages
+      gtUtil.sh        -- utility functions</pre>
+
+  <h2>Future Work</h2>
+  There are a few minor augmentations I want to add to these commands.
+  I would also like to (1) create recipes for git workflows (solo and
+  teams) and (2) create a consistent, simpler model with more undo
+  support so that people are comfortable trying things out.
+  </div> <!-- middle -->
+</body>
+</html>
