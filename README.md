@@ -28,7 +28,7 @@
       gt addRepo myNewRepo [.] [--private]<br>
       gt delRepo myOldRepo [--yes]<br>
       gt listRepos [-s name | date | public | private ]<br>
-      gt checkInAll message<br>
+      gt checkInAll "your check-in message"<br>
     </sup>
     <!--
     <br><br>
