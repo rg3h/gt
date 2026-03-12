@@ -18,6 +18,7 @@ source ${FULL_PATH_NAME}/modules/gtGetOwner.sh
 
 # command interface modules
 source ${FULL_PATH_NAME}/gtAddRepo.sh
+source ${FULL_PATH_NAME}/gtCheckInAll.sh
 source ${FULL_PATH_NAME}/gtDelRepo.sh
 source ${FULL_PATH_NAME}/gtListRepos.sh
 
@@ -32,11 +33,12 @@ printGtHelp() {
 
   printBox "example: ${GT_APP_NAME} addRepo myNewRepo --private"
   printCrossBar
-  printBox "help      | --help     | -h | -? .. show this help"
-  printBox "addRepo   | makeRepo   | ar | mr... add a new repo"
-  printBox "delRepo   | removeRepo | rr | dr... delete a repo from github"
-  printBox "listRepos | lr..................... list your gitHub repos"
-  printBox "version   | -v..................... show the version (v$GT_VERSION)"
+  printBox "help       | --help     | -h | -? .. show this help"
+  printBox "addRepo    | makeRepo   | ar | mr... add a new repo"
+  printBox "delRepo    | removeRepo | rr | dr... delete a repo from github"
+  printBox "listRepos  | lr..................... list your gitHub repos"
+  printBox "checkInAll | cia.................... git pull, add, commit, push"
+  printBox "version    | -v..................... show the version (v$GT_VERSION)"
   printBoxBottom
 }
 
@@ -128,6 +130,10 @@ runGtCmd() {
   case ${cmd} in
     "addrepo" | "ar" | "makerepo" | "mr")
       gtAddRepo ${paramList}
+      ;;
+
+    "checkinall" | "cia")
+      gtCheckInAll ${paramList}
       ;;
 
     "delrepo" | "dr" | "removerepo" | "rr")

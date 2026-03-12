@@ -62,7 +62,6 @@ processGtDelRepoArgList() {
   local helpFlag=0
   local noAskFlag=0
   local resultStatus=${GT_STATUS_OK}
-  local paramList=()
   local remoteRepo="none"
   local arg=""
 
@@ -107,7 +106,7 @@ processGtDelRepoArgList() {
   fi
 
   print -r -- ${(qq)resultStatus} ${helpFlag} ${noAskFlag} \
-        ${remoteRepo} ${localRepo} ${(qq)paramList}
+        ${remoteRepo} ${localRepo}
 }
 
 
