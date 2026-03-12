@@ -58,35 +58,36 @@
   make it very easy to add, delete, and list repos.
   <br><br>
 
-  For example, this is how easy it is to create a repo and delete it:<br>
-  <pre class="shellStyle">
-  <span class=white>$> gt addRepo myNewRepo</span>
+  For example, this is how easy it is to create a repo:<br>
+  <pre class="borderBox">
+  <span class=black>$> gt addRepo myNewRepo</span>
   created the local repository: .
-  created the remote public repo: https://github.com/rg3h/myNewRepo
+  created the remote public repo: https://github.com/rg3h/myNewRepo</pre>
+  <br><br>
 
-  $>  :: do some git stuff, then decide you don't like the repo
-
-  <span class=white>$> gt delrepo myNewRepo</span>
+  And to delete just the remote repo:<br>
+  <pre class="borderBox">
+  <span class=black>$> gt delrepo myNewRepo</span>
   ? Type rg3h/myNewRepo to confirm deletion: <span class=teal>rg3h/myNewRepo</span>
   ✓ Deleted repository rg3h/myNewRepo
   you may need to delete the local .git repo for myNewRepo
-  <span class=white>$> rm -rf .git</span>
+  <span class=black>$> rm -rf .git</span>
   </pre>
   <br><br>
 
   And if you try to do something wrong, like try to add an already
   existing repo:
-  <pre class="shellStyle">
-  $> <span class=white>gt addRepo someRepo</span>
+  <pre class="borderBox">
+  $> <span class=black>gt addRepo someRepo</span>
   created the local repository: someRepo
   created the remote public repo: https://github.com/rg3h/someRepo
 
-  $> <span class=white>gt addRepo someRepo</span>
-  <span class=red>
-┌────────────────────────────────────────────────────────────────────┐
-│ <span class=orange>&#9888;</span> Error: github repo already exists: rg3h/someRepo                │
-└────────────────────────────────────────────────────────────────────┘
-  </span></pre>
+  $> <span class=black>gt addRepo someRepo</span>
+  <div class=red style="line-height:0.9rem">
+  ┌────────────────────────────────────────────────────────────────────┐
+  │ <span class=orange>&#9888;</span> Error: github repo already exists: rg3h/someRepo
+  └────────────────────────────────────────────────────────────────────┘
+  </div></pre>
   <br><br>
 
   <a class="aNoDecoration"
@@ -112,6 +113,7 @@
     <li>gt addRepo -- add a local and remote repo</li>
     <li>gt delRepo -- delete a remote repo but not touching the local one</li>
     <li>gt listRepos -- list all of your repos, sorted by date, name, public/private</li>
+    <li>gt checkInAll (cia) -- does a pull, add all, commit, and push</li>
   </ul>
   <br>
   gt also provides --help, error checking, and for delete, confirmation.
@@ -162,7 +164,6 @@
   </ul>
   <h2>Commands</h2>
   gt supports the following commands:
-  <pre> gt, addRepo (ar), delRepo (dr), listRepos (lr)</pre>
 
   <h3>gt</h3>
   This is the "umbrella" script that parses the gt commands and sends
@@ -190,11 +191,20 @@
     <img src="./assets/images/gtDelRepoHelpScreenshot.jpg"/>
   </div>
   <h3>gt listRepos</h3>
-  gt listRepos (gt lr) lists all of your repos (up to 100), sorted by
-  date. You can change the sorting order to name or public/private.
+  gt listRepos (gt lr) lists all of your repos (up to 100), sorted by date.<br>
+  You can change the sorting order to name or public/private.
   <div class="centered">
     <img src="./assets/images/gtListReposHelpScreenshot.jpg"/>
   </div>
+
+  <h3>gt checkInAll</h3>
+  gt checkInAll (gt cia) checks in all of your local code to the repo.<br>
+  It does a pull, then add ., then commit -m "your message", then push.
+  <div class="centered">
+    <img src="./assets/images/gtCheckInAllHelpScreenshot.jpg"/>
+  </div>
+
+
   <h2>extensible zsh architecture</h2>
   zsh is a pain. But I've tried to write it so that it is modular.
   The structure is:

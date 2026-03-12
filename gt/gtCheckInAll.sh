@@ -8,17 +8,14 @@ printGtCheckInAllHelp() {
   local msg=""
 
   printBoxTop
-  # msg="gt {checkInAll | cia} msg [--yes]"
   msg="gt {checkInAll | cia} msg"
   printBox "${BOLD}${msg}${RESET}" 80
   printCrossBar
   printBox "does a git pull, add . commit, and push"
   printBox "  --help | -h | -? issues this help"
-  # printBox "  --yes skips the confirmation check"
   printBox " "
   printBox "examples:"
-  printBox " gt checkInAll \"update README.md\""
-  # printBox " gt cia \"update logo.jpg\" --yes  # updates but does not ask"
+  printBox " gt checkInAll \"updated README.md\""
   printBoxBottom
 }
 
