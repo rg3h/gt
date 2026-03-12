@@ -20,18 +20,15 @@
     </sup>
     <br><br>
     This early version supports cross-platform command-line tools
-    to add, delete, and list your repos. There is ample error checking,
+    to manage your repos. There is ample error checking,
     initialization, and coordination with your local and remote repos.
-    <br><br>
-    Check out the documentation to see how comfortable it is to
-    create, delete, and list your repos.  Later this will grow to make
-    git commands easier too.
     <br><br>
     <sup>
       gt [--help]<br>
       gt addRepo myNewRepo [.] [--private]<br>
       gt delRepo myOldRepo [--yes]<br>
       gt listRepos [-s name | date | public | private ]<br>
+      gt checkInAll message<br>
     </sup>
     <!--
     <br><br>
