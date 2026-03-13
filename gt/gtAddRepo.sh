@@ -229,9 +229,7 @@ makeRemoteRepo() {
   cmdOutput=$("${cmd[@]}" 2>&1)
   cmdStatus=$?
 
-  if [[ ${cmdStatus} -eq 0 ]]; then
-    printf "created the remote %s repo: %s\n" ${pubPrivFlag} "${cmdOutput}"
-  else
+  if [[ ${cmdStatus} -ne 0 ]]; then
     gtDebugPrint "did not create the remote repo:" ${remoteRepo}
     gtDebugPrint "return status" "${cmdStatus}"
     gtDebugPrint "return cmdOutput" "${cmdOutput}"
@@ -240,6 +238,8 @@ makeRemoteRepo() {
     gtPrintErrorBox ${errorMsg} ${cmdOutput}
     exit
   fi
+
+  printf "created the remote %s repo: %s\n" ${pubPrivFlag} "${cmdOutput}"
 }
 
 

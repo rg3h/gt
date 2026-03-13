@@ -109,16 +109,17 @@ gtCheckInAllPull() {
   local cmdOutput=""
   local cmdStatus=0
 
-  print "gt puliing from remote repo..."
+  print "gt pulling from remote repo..."
   cmdOutput=$(git pull 2>&1)
   cmdStatus=$?
 
   if [[ ${cmdStatus} -eq 0 ]]; then
-    gtDebugPrint "push    worked" ${cmdStatus} ${cmdOutput}
+    gtDebugPrint "pull    worked" ${cmdStatus} ${cmdOutput}
   else
-    # TODO issue a warningBox
-    gtPrintErrorBox "Error pushing" ${cmdStatus} ${cmdOutput}
-    if [[ ${cmdStatus} -ne 1 ]]; then   # if error=1 then continue
+    if [[ ${cmdStatus} -eq 1 ]]; then   # if error=1 then continue
+      # print "minor git warning on pull. Will continue."
+    else
+      gtPrintErrorBox "Error pulling" ${cmdStatus} ${cmdOutput}
       exit
     fi
   fi
