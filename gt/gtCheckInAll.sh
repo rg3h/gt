@@ -2,7 +2,8 @@
 # @fileoverview gtCheckInAll.sh adds a gethub repo.
 #  gtCheckInAll repoName [optional localRepoName ] --help --private
 #
-filesPushed=""
+globalFilesPushed=""
+globalVerboseFlag=0
 
 printGtCheckInAllHelp() {
   local msg=""
@@ -13,9 +14,11 @@ printGtCheckInAllHelp() {
   printCrossBar
   printBox "does a git pull, add . commit, and push"
   printBox "  --help | -h | -? issues this help"
+  printBox "  --verbose shows more details"
   printBox " "
   printBox "examples:"
   printBox " gt checkInAll \"updated README.md\""
+  printBox " gt cia -v updated logo"
   printBoxBottom
 }
 
@@ -26,12 +29,14 @@ debugPrintGtCheckInAllArgList() {
 
   local resultStatus=$1
   local helpFlag=$2
-  local message=$3
+  local globalVerboseFlag=$3
+  local message=$4
 
   gtDebugPrint "gtCheckInAll parsed arguments are..."
-  gtDebugPrint "  resultStatus " ${resultStatus}
-  gtDebugPrint "  helpFlag     " ${helpFlag}
-  gtDebugPrint "  message      " "${message}"
+  gtDebugPrint "  resultStatus       " ${resultStatus}
+  gtDebugPrint "  helpFlag           " ${helpFlag}
+  gtDebugPrint "  globalVerboseFlag  " ${globalVerboseFlag}
+  gtDebugPrint "  message            " "${message}"
 }
 
 
@@ -53,6 +58,10 @@ processGtCheckInAllArgList() {
       case "${arg}" in
         "--help" | "-h" | "-?")
           helpFlag=1
+          ;;
+
+        "--verbose")
+          globalVerboseFlag=1
           ;;
 
         *)
@@ -77,7 +86,7 @@ processGtCheckInAllArgList() {
     fi
   fi
 
-  print -r -- ${(qq)resultStatus} ${helpFlag} ${(qq)msgList}
+  print -r -- ${(qq)resultStatus} ${helpFlag} ${globalVerboseFlag} ${(qq)msgList}
 }
 
 
@@ -109,7 +118,10 @@ gtCheckInAllPull() {
   local cmdOutput=""
   local cmdStatus=0
 
-  print "gt pulling from remote repo..."
+  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+    print "gt pulling from remote repo..."
+  fi
+
   cmdOutput=$(git pull 2>&1)
   cmdStatus=$?
 
@@ -130,7 +142,10 @@ gtCheckInAddAll() {
   local cmdOutput=""
   local cmdStatus=0
 
-  print "gt adding all..."
+  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+    print "gt adding all..."
+  fi
+
   cmdOutput=$(git add -A 2>&1)
   cmdStatus=$?
 
@@ -151,7 +166,10 @@ gtCheckInCommit() {
   local cmdStatus=0
   local msg=${1}
 
-  print "gt commiting -m \"${msg}\" locally..."
+  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+    print "gt commiting -m \"${msg}\" locally..."
+  fi
+
   cmdOutput=$(git commit -m "${msg}" 2>&1)
   cmdStatus=$?
 
@@ -180,7 +198,7 @@ gtShowFilesToBePushed() {
   cmdStatus=$?
 
   if [[ ${cmdStatus} -eq 0 ]]; then
-    filesPushed="${cmdOutput}"    # filesPushed is a global variable
+    globalFilesPushed="${cmdOutput}"  # globalFilesPushed is a global var
   else
     local msg="Error getting files to be pushed"
     gtPrintErrorBox  "${msg}" "${cmdStatus} ${cmdOutput}"
@@ -192,7 +210,10 @@ gtCheckInPush() {
   local cmdOutput=""
   local cmdStatus=0
 
-  print "gt pushing to remote repo..."
+  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+    print "gt pushing to remote repo..."
+  fi
+
   cmdOutput=$(git push 2>&1)
   cmdStatus=$?
 
@@ -216,9 +237,13 @@ gtCheckInAll() {
   local resultList=("${(@Q)${(z)$(processGtCheckInAllArgList ${@})}}")
   local resultStatus=${resultList[1]}
   local helpFlag=${resultList[2]}
-  local message=${resultList[3,-1]}
+  globalVerboseFlag=${resultList[3]}  # globalVerboseFlag is a global var
+  local message=${resultList[4,-1]}
 
-  debugPrintGtCheckInAllArgList "${resultStatus}" "${helpFlag}" "${message}"
+  debugPrintGtCheckInAllArgList "${resultStatus}"       \
+                                "${helpFlag}"           \
+                                "${globalVerboseFlag}"  \
+                                "${message}"
 
   handleCheckInAllHelpFlag ${helpFlag}          # if --help print and quit
   handleCheckInAllResultStatus ${resultStatus}  # if error w/ args, print & quit
@@ -235,6 +260,6 @@ gtCheckInAll() {
   printBox "gt checkInAll -m \"${message}\" was succssful"
   printCrossBar
   printBox "files pushed:"
-  printBox "${filesPushed}"
+  printBox "${globalFilesPushed}"
   printBoxBottom
 }
