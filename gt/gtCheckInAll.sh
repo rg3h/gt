@@ -2,7 +2,7 @@
 # @fileoverview gtCheckInAll.sh adds a gethub repo.
 #  gtCheckInAll repoName [optional localRepoName ] --help --private
 #
-
+filesPushed=""
 
 printGtCheckInAllHelp() {
   local msg=""
@@ -131,7 +131,7 @@ gtCheckInAddAll() {
   local cmdStatus=0
 
   print "gt adding all..."
-  cmdOutput=$(git add . 2>&1)
+  cmdOutput=$(git add -A 2>&1)
   cmdStatus=$?
 
   if [[ ${cmdStatus} -eq 0 ]]; then
@@ -168,6 +168,22 @@ gtCheckInCommit() {
       gtPrintErrorBox "Error committing" "${cmdStatus} ${cmdOutput}"
       exit
     fi
+  fi
+}
+
+
+gtShowFilesToBePushed() {
+  local cmdOutput=""
+  local cmdStatus=0
+
+  cmdOutput=$(git diff --name-only origin/main HEAD 2>&1)
+  cmdStatus=$?
+
+  if [[ ${cmdStatus} -eq 0 ]]; then
+    filesPushed="${cmdOutput}"    # filesPushed is a global variable
+  else
+    local msg="Error getting files to be pushed"
+    gtPrintErrorBox  "${msg}" "${cmdStatus} ${cmdOutput}"
   fi
 }
 
@@ -211,9 +227,14 @@ gtCheckInAll() {
   gtCheckInAllPull
   gtCheckInAddAll
   gtCheckInCommit ${message}
+  gtShowFilesToBePushed
   gtCheckInPush
 
+  # show the success
   printBoxTop
   printBox "gt checkInAll -m \"${message}\" was succssful"
+  printCrossBar
+  printBox "files pushed:"
+  printBox "${filesPushed}"
   printBoxBottom
 }

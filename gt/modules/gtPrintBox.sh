@@ -76,9 +76,9 @@ printBox() {
 
   # if the text is multi-line, split into individual lines
   local linesList=("${(f)text}")
-  if [[ ${#linesList[@]} -gt 1 ]]; then
-    printCrossBar
-  fi
+  # if [[ ${#linesList[@]} -gt 1 ]]; then
+  #   printCrossBar
+  # fi
 
   # if the individual line is too long, truncate and append "..."
   for line in "${linesList[@]}"; do
