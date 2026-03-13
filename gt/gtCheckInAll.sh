@@ -176,7 +176,7 @@ gtShowFilesToBePushed() {
   local cmdOutput=""
   local cmdStatus=0
 
-  cmdOutput=$(git diff --name-only origin/main HEAD 2>&1)
+  cmdOutput=$(git log -1 --pretty=format: --name-only 2>&1)
   cmdStatus=$?
 
   if [[ ${cmdStatus} -eq 0 ]]; then
