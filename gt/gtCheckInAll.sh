@@ -13,8 +13,8 @@ printGtCheckInAllHelp() {
   printBox "${BOLD}${msg}${RESET}" 80
   printCrossBar
   printBox "does a git pull, add . commit, and push"
-  printBox "  --help | -h | -? issues this help"
-  printBox "  --verbose shows more details"
+  printBox "  --help    | -h | -? issues this help"
+  printBox "  --verbose | -v | shows more details"
   printBox " "
   printBox "examples:"
   printBox " gt checkInAll \"updated README.md\""
@@ -60,7 +60,7 @@ processGtCheckInAllArgList() {
           helpFlag=1
           ;;
 
-        "--verbose")
+        "--verbose" | "-v")
           globalVerboseFlag=1
           ;;
 

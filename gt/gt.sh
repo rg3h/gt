@@ -38,7 +38,7 @@ printGtHelp() {
   printBox "delRepo    | removeRepo | rr | dr... delete a repo from github"
   printBox "listRepos  | lr..................... list your gitHub repos"
   printBox "checkInAll | cia.................... git pull, add, commit, push"
-  printBox "version    | -v..................... show the version (v$GT_VERSION)"
+  printBox "version    | --version  | -v |...... show the version (v$GT_VERSION)"
   printBoxBottom
 }
 
@@ -62,13 +62,14 @@ debugPrintGtArgList() {
 processGtArgList() {
   local resultStatus="${GT_STATUS_OK}"
   local cmdFound=0
+  local versionFlag=0
   local helpFlag=0
   local paramList=()
   local unknownParamList=()
   local cmd="none"
   local arg=""
 
-  if [[ $# -eq 0 ]]; then   # they entered just "gt"
+  if [[ $# -eq 0 ]]; then   # they entered just "gt" so show help
     cmd="help"
   else
     for arg in "${@}";do
@@ -84,9 +85,14 @@ processGtArgList() {
             helpFlag=1  # dont change cmd=help; flag might be for specific cmd
             ;;
 
-          "--version" | "-v")  # version flag overrides other gt commands
+          "--version")  # version flag overrides passing on to other gt cmds
+            versionFlag=1
             cmd="version"
             cmdFound=1
+            ;;
+
+          "-v")  # version flag for empty gt or a parameter for gt command
+            versionFlag=1
             ;;
 
           *)
@@ -106,13 +112,17 @@ processGtArgList() {
     done # for all args in argList
   fi  # if there are no args
 
-  # if there is no command and there are unknown params, issue an error
-  # otherwise show help
+  # if there is no command then
+  #  if help was found, show help
+  #  if version was found, show version
+  #  if there are unknown params, issue an error
   if [[ ${cmdFound} -eq 0  ]]; then
-    if [[ ${#unknownParamList} -gt 0 ]]; then
+    if [[ ${helpFlag} -eq 1 ]]; then
+      cmd="help"
+    elif [[ ${versionFlag} -eq 1 ]]; then
+      cmd="version"
+    elif [[ ${#unknownParamList} -gt 0 ]]; then
       resultStatus="${GT_STATUS_UNKNOWN_PARAMETER}: ${unknownParamList}"
-    else
-     cmd="help"
     fi
   fi
 
