@@ -399,6 +399,7 @@ button, .button, .bigBlueButton {
 
 button:hover, .button:hover, .bigBlueButton:hover {
   background-color: var(--blue);
+  border-radius: var(--borderRadius);
   box-shadow: var(--boxShadowHover);
 }
 

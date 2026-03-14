@@ -1,0 +1,125 @@
+<!DOCTYPE html> <!-- todo.html -->
+<html lang="en">
+<head>
+<!--                _
+ _      _      __ _| |_
+ \\___()''o   / _` | __|
+ (     \_v   | (_| | |_    gt: tools to simplify git and github
+  \_)\_)_)    \__, |\__|
+              |___/
+-->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>gt todo</title>
+  <meta name="description"                  content="gt todo"/>
+  <meta name="mobile-web-app-capable"       content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="msapplication-tap-highlight"  content="no"  />
+  <meta name="description"                  content="gt todo"/>
+  <meta name="theme-color"                  content="#EFF4FF">
+  <meta property="og:title"                 content="gt">
+  <meta property="og:description"           content="gt">
+  <meta property="og:image"                 content="./assets/images/logo.png">
+  <meta property="og:url"                   content="www.gt.com">
+
+  <link rel="apple-touch-icon" href="./assets/images/logo.png"/>
+  <link rel="icon"             href="./assets/images/logo.png"/>
+  <link rel="stylesheet"       href="./assets/fonts/monaSans/monaSans.css"/>
+  <link rel="stylesheet"       href="./modules/default/reset.css"/>
+  <link rel="stylesheet"       href="./modules/color/color.css"/>
+  <link rel="stylesheet"       href="./modules/default/default.css"/>
+  <link rel="stylesheet"       href="./index.css"/>
+  <script type="module"        src="./modules/default/main.js"></script>
+</head>
+
+<body>
+  <div class="middle">
+  <div class="titleContainer">
+    <div class="titleLeft">
+      <img class="titleImg" src="./assets/images/logo.png" alt="logo" />
+    </div>
+    <div class="titleMiddle">
+      <div class="titleText">gt todo list</div>
+      <div class="subTitle">
+        Your future lives here!
+        <br>
+        <span class="titleVersion">version goes here</span>
+      </div>
+    </div>
+    <div class="titleRight">
+      <div class="titleDate"></div>
+    </div>
+  </div> <!-- titleContainer -->
+
+  <ul>
+    <li>organize this list</li>
+    <li>publish.bat (cia, zip, copy to bin)</li>
+    <li>connectToRepo  (clone)</li>
+    <li>copyRepo someRemoteRepo [newRepoName]</li>
+    <li>node version</li>
+    <li>web version</li>
+    <li>card version</li>
+    <li>list repo details</li>
+    <li>list person details</li>
+    <li>visualizations of the repo log</li>
+    <li>code walk html, css, js</li>
+    <li>push a READme on init?</li>
+    <li>add to medley (part of library: 4 cards)</li>
+    <li>howToGh and aliases card</li>
+    <li>document thoughts on git->gt</li>
+    <li>optimize loading source on demand</li>
+    <li>branching (so not checked into production)</li>
+    <li>clean up aaa_notForProject</li>
+    <li>remove mona font and reference google</li>
+    <li>show urls when listing?</li>
+    <li>gh api /repos/rg3h/foo</li>
+    <li>gh api /repos/rg3h/foo/contents/gitorg -q .content | base64 -d</li>
+    <li>gh browse opens the git in the browser</li>
+    <li>can gh add a pages setting?</li>
+    <li>gt sendIt(git pull;git add .; git commit -m; git push)</li>
+    <li>gt undos</li>
+    <li>gt status (details)</li>
+    <li>gtLatch?</li>
+    <li>gt showFile</li>
+    <li>gt getFile</li>
+    <li>SOLO I, II, TEAM I, II</li>
+    <li>create recipes for git workflows (solo and teams)</li>
+    <li>create a consistent, simpler model with more undo support</li>
+    <li>gt connectToRepo</li>
+    <li>gt listRepo [blank or a repo name]</li>
+    <li>gt branch</li>
+    <li>gt checkinall (cia)</li>
+    <li>gt refreshFromRepo (pull v fetch v sync?)</li>
+    <li>sed then sort</li>
+    <li>gt lr count lines</li>
+    <li>wrap git add, git status, git push, git sync</li>
+    <li>consider -jq</li>
+    <li>git fetch (downloads without merging)</li>
+    <li>git log --pretty=format:"%cs %h %s"</li>
+    <li>git log --pretty=format:"%ci %s"</li>
+    <li>git branch feature-login  # create a new branch</li>
+    <li>git switch</li>
+    <li>git branch (lists branches</li>
+    <li>cards for git, gh, theLibrary</li>
+    <li>tool to change public to private and back</li>
+    <li>one processArgs function for all?</li>
+    <li>${(qq)output} to properly string quote a variable</li>
+    <li>gt recipes: gt sync gt push gt branch gt merge gt map</li>
+    <li>look through aaa_notForProject/gtOrig</li>
+    <li>a better printBox</li>
+    <li>show deets for a particular repo (---web?)</li>
+    <li>time is shown as UTC instead of local</li>
+    <li>list with your pick of columns, json</li>
+    <li>color the ls chart</li>
+    <li>test suite</li>
+    <li>web and node tool</li>
+    <li>outputs as stdout and stderr, return codes</li>
+    <li>processArgs generic function for gt and gtAddRepo</li>
+    <li>modules: color?</li>
+    <li>ttyColor.sh  -- put GT_ in front of each</li>
+    <li>copyRepo/cloneRepo (into new repo)</li>
+    <li>getRepoCode</li>
+  </ul>
+  </div> <!-- middle -->
+</body>
+</html>
