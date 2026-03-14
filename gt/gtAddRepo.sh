@@ -1,8 +1,13 @@
 #!/usr/bin/zsh
-# @fileoverview gtAddRepo.sh adds a gethub repo.
+# @fileoverview gtAddRepo.sh adds a gethub repo locally and remotely
 #  gtAddRepo repoName [optional localRepoName ] --help --private
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
-
 
 printGtAddRepoHelp() {
   local msg=""

@@ -1,5 +1,11 @@
 #!/usr/bin/zsh
 # @fileoverview gtUtil.sh utility functions
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
 
 # sanitize a string to be a valid repoName

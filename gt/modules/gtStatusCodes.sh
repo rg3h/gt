@@ -1,5 +1,11 @@
 #!/usr/bin/zsh
 # @fileoverview gtStatusCodes.sh holds the status codes for gt
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
 
 # status codes

@@ -1,4 +1,12 @@
 // @fileoverview module date.js
+/*                  _
+ _      _      __ _| |_
+ \\___()''o   / _` | __|
+ (     \_v   | (_| | |_    gt: tools to simplify git and github
+  \_)\_)_)    \__, |\__|
+              |___/
+*/
+
 //  let locale = undefined; //  e.g. 'en-US'
 
 export {

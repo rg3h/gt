@@ -1,6 +1,14 @@
 #!/usr/bin/zsh
 # @fileoverview gtDebug.sh toggles on and off debug and debugPrint
 #
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
+#
+
 GT_DEBUG=0
 
 # if DEBUG=1 prints the input args in grey

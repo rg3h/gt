@@ -1,4 +1,11 @@
 // @fileoverview util.js
+/*                  _
+ _      _      __ _| |_
+ \\___()''o   / _` | __|
+ (     \_v   | (_| | |_    gt: tools to simplify git and github
+  \_)\_)_)    \__, |\__|
+              |___/
+*/
 
 export {
   getVersion, // the version of util.js

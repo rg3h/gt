@@ -1,9 +1,9 @@
-<!--             _
-   _        __ _| |_
-   Vo--o   / _` | __|  gt: tools to simplify git and github
-\ / |--'  | (_| | |_
- V_ \\     \__, |\__|
-           |___/
+<!--                _
+ _      _      __ _| |_
+ \\___()''o   / _` | __|
+ (     \_v   | (_| | |_    gt: tools to simplify git and github
+  \_)\_)_)    \__, |\__|
+              |___/
 -->
 <table align=center>
  <tr><td align=center width=400>

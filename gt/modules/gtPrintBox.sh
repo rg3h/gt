@@ -1,8 +1,12 @@
 #!/usr/bin/zsh
 # @fileoverview gtPrintBox.sh uses unicode chars to print boxes around messages
-# source gtCharCodes.sh
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
-
 
 # prints a horizontal line
 printHLine() {
@@ -99,6 +103,7 @@ gtPrintBoxWithHeader() {
   # if [[ $# -lt 2 ]]; then noheader; fi
   printBoxTop
   printBox "${1}"
+  printCrossBar
   printBox "${2}"
   printBoxBottom
 }

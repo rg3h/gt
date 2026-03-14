@@ -1,6 +1,12 @@
 #!/usr/bin/zsh
-# @fileoverview gtCheckInAll.sh adds a gethub repo.
-#  gtCheckInAll repoName [optional localRepoName ] --help --private
+# @fileoverview gtCheckInAll.sh checks in all files in a repo
+#  by doing a pull, add -A, commit -m, push
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
 globalFilesPushed=""
 globalVerboseFlag=0

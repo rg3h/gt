@@ -1,7 +1,12 @@
 #!/usr/bin/zsh
 # @fileoverview gtDelRepos.sh deletes a repo. Supports --yes to force
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
-
 
 printGtDelRepoHelp() {
   printBoxTop

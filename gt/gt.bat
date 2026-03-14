@@ -1,6 +1,12 @@
 :: @fileoverfiew gt.bat windows batch file that runs the linux zsh gt.sh
 @ECHO OFF
 SETLOCAL
+::                     _
+::  _      _      __ _| |_
+::  \\___()''o   / _` | __|
+::  (     \_v   | (_| | |_    gt: tools to simplify git and github
+::   \_)\_)_)    \__, |\__|
+::               |___/
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::  windows WSL zsh

@@ -1,6 +1,13 @@
 /**
  * @fileoverview main.js entry point into javascript
  */
+/*                  _
+ _      _      __ _| |_
+ \\___()''o   / _` | __|
+ (     \_v   | (_| | |_    gt: tools to simplify git and github
+  \_)\_)_)    \__, |\__|
+              |___/
+*/
 import {formatDate, updateOnTheMinute} from '../date/date.js';
 import {getVersion} from '../util/util.js';
 

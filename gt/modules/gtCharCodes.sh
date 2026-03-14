@@ -1,5 +1,11 @@
 #!/usr/bin/zsh
 # @fileoverview gtCharCodes.sh holds TTY escape codes and unicode characters
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
 
 # TTY escape codes

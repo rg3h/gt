@@ -1,9 +1,13 @@
 #!/usr/bin/zsh
-#
 # @fileoverview gtListRepos.sh lists the repos
-#  gtListRepos --help --sort {date, name, private, public}"
+#  gtListRepos --help --sort {date, name, private, public}
+#                     _
+#  _      _      __ _| |_
+#  \\___()''o   / _` | __|
+#  (     \_v   | (_| | |_    gt: tools to simplify git and github
+#   \_)\_)_)    \__, |\__|
+#               |___/
 #
-
 
 printGtListReposHelp() {
   printBoxTop
@@ -139,7 +143,7 @@ gtListRepos() {
   handleListReposResultStatus ${resultStatus}  # if error w/ args, print & quit
 
   local sortMsg="sorted by ${sortField}"
-  local header="remote repos for ${OWNER}   ${sortMsg}   (date is UTC)"
+  local header="remote repos for ${OWNER} (${sortMsg}; date is UTC)"
   case "${sortField}" in
     "date")
       cmdOutput=$(gh repo list --limit ${limit} --json ${fields} \
