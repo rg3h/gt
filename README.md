@@ -25,10 +25,11 @@
     <br><br>
     <sup>
       gt [--help]<br>
-      gt addRepo myNewRepo [.] [--private]<br>
-      gt delRepo myOldRepo [--yes]<br>
-      gt listRepos [-s name | date | public | private ]<br>
-      gt checkInAll "your check-in message"<br>
+      gt listRepos  | lr [-s name | date | public | private ]<br>
+      gt addRepo    | ar myNewRepo [.] [--private]<br>
+      gt delRepo    | dr myOldRepo [--yes]<br>
+      gt repoStatus | rs<br>
+      gt checkInAll | cia "your check-in message"<br>
     </sup>
     <!--
     <br><br>

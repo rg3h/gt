@@ -38,10 +38,11 @@ h3 {
 .white { color: white; }
 .yellow { color: yellow; }
 
-.centered {
+.centeredImg {
   align-items: center;
   display: flex;
   justify-content: center;
+  margin-top: 1rem;
   width: 100%;
 }
 

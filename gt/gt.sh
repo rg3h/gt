@@ -10,7 +10,7 @@
 
 # global to all gt apps
 GT_APP_NAME="gt"
-GT_VERSION="1.0.0"
+GT_VERSION="1.1.0"
 FULL_PATH_NAME="${${0:h}//\\//}"
 OWNER=""
 
@@ -27,7 +27,7 @@ source ${FULL_PATH_NAME}/gtAddRepo.sh
 source ${FULL_PATH_NAME}/gtCheckInAll.sh
 source ${FULL_PATH_NAME}/gtDelRepo.sh
 source ${FULL_PATH_NAME}/gtListRepos.sh
-
+source ${FULL_PATH_NAME}/gtRepoStatus.sh
 
 # print gt help in a nice box
 printGtHelp() {
@@ -39,12 +39,13 @@ printGtHelp() {
 
   printBox "example: ${GT_APP_NAME} addRepo myNewRepo --private"
   printCrossBar
-  printBox "help       | --help     | -h | -? .. show this help"
-  printBox "addRepo    | makeRepo   | ar | mr... add a new repo"
-  printBox "delRepo    | removeRepo | rr | dr... delete a repo from github"
-  printBox "listRepos  | lr..................... list your gitHub repos"
-  printBox "checkInAll | cia.................... git pull, add, commit, push"
-  printBox "version    | --version  | -v |...... show the version (v$GT_VERSION)"
+  printBox "help       | --help    | -h | -? .. show this help"
+  printBox "version    | --version | -v |...... show the version (v$GT_VERSION)"
+  printBox "listRepos  | lr.................... list your gitHub repos"
+  printBox "addRepo    | ar ................... add a new repo"
+  printBox "delRepo    | dr ................... delete a repo from github"
+  printBox "repoStatus | rs.................... show status of the current repo"
+  printBox "checkInAll | cia................... git pull, add, commit, push"
   printBoxBottom
 }
 
@@ -144,7 +145,7 @@ runGtCmd() {
 
   # based on the command, run the gtCmd or issue an error
   case ${cmd} in
-    "addrepo" | "ar" | "makerepo" | "mr")
+    "addrepo" | "ar")
       gtAddRepo ${paramList}
       ;;
 
@@ -152,7 +153,7 @@ runGtCmd() {
       gtCheckInAll ${paramList}
       ;;
 
-    "delrepo" | "dr" | "removerepo" | "rr")
+    "delrepo" | "dr")
       gtDelRepo ${paramList}
       ;;
 
@@ -162,6 +163,10 @@ runGtCmd() {
 
     "listrepos" | "listrepo" | "lr")
       gtListRepos ${paramList}
+      ;;
+
+    "repostatus" | "rs")
+      gtRepoStatus ${paramList}
       ;;
 
     "version")
