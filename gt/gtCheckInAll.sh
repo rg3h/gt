@@ -9,7 +9,6 @@
 #               |___/
 #
 globalFilesPushed=""
-globalVerboseFlag=0
 
 printGtCheckInAllHelp() {
   local msg=""
@@ -19,12 +18,13 @@ printGtCheckInAllHelp() {
   printBox "${BOLD}${msg}${RESET}" 80
   printCrossBar
   printBox "does a git pull, add . commit, and push"
-  printBox "  --help    | -h | -? issues this help"
-  printBox "  --verbose | -v | shows more details"
+  printBox "  --help  | -h | -? issues this help"
+  printBox "  --quiet | -q | shows less details"
   printBox " "
   printBox "examples:"
   printBox " gt checkInAll \"updated README.md\""
-  printBox " gt cia -v updated logo"
+  printBox " gt cia -q updated logo"
+  printBox " gt cia \"fixed index.html\" -q"
   printBoxBottom
 }
 
@@ -35,14 +35,14 @@ debugPrintGtCheckInAllArgList() {
 
   local resultStatus=$1
   local helpFlag=$2
-  local globalVerboseFlag=$3
+  local quietFlag=$3
   local message=$4
 
   gtDebugPrint "gtCheckInAll parsed arguments are..."
-  gtDebugPrint "  resultStatus       " ${resultStatus}
-  gtDebugPrint "  helpFlag           " ${helpFlag}
-  gtDebugPrint "  globalVerboseFlag  " ${globalVerboseFlag}
-  gtDebugPrint "  message            " "${message}"
+  gtDebugPrint "  resultStatus  " ${resultStatus}
+  gtDebugPrint "  helpFlag      " ${helpFlag}
+  gtDebugPrint "  quietFlag     " ${quietFlag}
+  gtDebugPrint "  message       " "${message}"
 }
 
 
@@ -50,6 +50,7 @@ debugPrintGtCheckInAllArgList() {
 processGtCheckInAllArgList() {
   local resultStatus=${GT_STATUS_OK}
   local helpFlag=0
+  local quietFlag=0
   local msgList=()
   local flagFound=0
   local arg=""
@@ -66,8 +67,8 @@ processGtCheckInAllArgList() {
           helpFlag=1
           ;;
 
-        "--verbose" | "-v")
-          globalVerboseFlag=1
+        "--quiet" | "-q")
+          quietFlag=1
           ;;
 
         *)
@@ -92,7 +93,7 @@ processGtCheckInAllArgList() {
     fi
   fi
 
-  print -r -- ${(qq)resultStatus} ${helpFlag} ${globalVerboseFlag} ${(qq)msgList}
+  print -r -- ${(qq)resultStatus} ${helpFlag} ${quietFlag} ${(qq)msgList}
 }
 
 
@@ -123,9 +124,10 @@ handleCheckInAllResultStatus() {
 gtCheckInAllPull() {
   local cmdOutput=""
   local cmdStatus=0
+  local quietFlag=${1}
 
-  if [[ ${globalVerboseFlag} -eq 1 ]]; then
-    print "gt pulling from remote repo..."
+  if [[ ${quietFlag} -eq 0 ]]; then
+     print "gt pulling from remote repo..."
   fi
 
   cmdOutput=$(git pull 2>&1)
@@ -147,8 +149,9 @@ gtCheckInAllPull() {
 gtCheckInAddAll() {
   local cmdOutput=""
   local cmdStatus=0
+  local quietFlag=${1}
 
-  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+  if [[ ${quietFlag} -eq 0 ]]; then
     print "gt adding all..."
   fi
 
@@ -158,7 +161,6 @@ gtCheckInAddAll() {
   if [[ ${cmdStatus} -eq 0 ]]; then
     gtDebugPrint "add all worked" ${cmdStatus} ${cmdOutput}
   else
-    # TODO issue a warningBox
     gtPrintErrorBox "Error adding" ${cmdStatus} ${cmdOutput}
     if [[ ${cmdStatus} -ne 1 ]]; then   # if error=1 then continue
       exit
@@ -170,9 +172,10 @@ gtCheckInAddAll() {
 gtCheckInCommit() {
   local cmdOutput=""
   local cmdStatus=0
-  local msg=${1}
+  local quietFlag=${1}
+  local msg=${2}
 
-  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+  if [[ ${quietFlag} -eq 0 ]]; then
     print "gt commiting -m \"${msg}\" locally..."
   fi
 
@@ -216,7 +219,7 @@ gtCheckInPush() {
   local cmdOutput=""
   local cmdStatus=0
 
-  if [[ ${globalVerboseFlag} -eq 1 ]]; then
+  if [[ ${quietFlag} -eq 0 ]]; then
     print "gt pushing to remote repo..."
   fi
 
@@ -226,7 +229,6 @@ gtCheckInPush() {
   if [[ ${cmdStatus} -eq 0 ]]; then
     gtDebugPrint "push worked" ${cmdStatus} ${cmdOutput}
   else
-    # TODO issue a warningBox
     gtPrintErrorBox "Error pushing" "${cmdStatus} ${cmdOutput}"
     if [[ ${cmdStatus} -ne 1 ]]; then   # if error=1 then continue
       exit
@@ -243,25 +245,25 @@ gtCheckInAll() {
   local resultList=("${(@Q)${(z)$(processGtCheckInAllArgList ${@})}}")
   local resultStatus=${resultList[1]}
   local helpFlag=${resultList[2]}
-  globalVerboseFlag=${resultList[3]}  # globalVerboseFlag is a global var
+  local quietFlag=${resultList[3]}
   local message=${resultList[4,-1]}
 
   debugPrintGtCheckInAllArgList "${resultStatus}"       \
                                 "${helpFlag}"           \
-                                "${globalVerboseFlag}"  \
+                                "${quietFlag}"    \
                                 "${message}"
 
   handleCheckInAllHelpFlag ${helpFlag}          # if --help print and quit
   handleCheckInAllResultStatus ${resultStatus}  # if error w/ args, print & quit
 
   gtDebugPrint "Everything is good. pull,add,commit,push to the repo:" "${repo}"
-  gtCheckInAllPull
-  gtCheckInAddAll
-  gtCheckInCommit ${message}
-  gtShowFilesToBePushed
-  gtCheckInPush
+  gtCheckInAllPull      ${quietFlag}
+  gtCheckInAddAll       ${quietFlag}
+  gtCheckInCommit       ${quietFlag} ${message}
+  gtShowFilesToBePushed ${quietFlag}
+  gtCheckInPush         ${quietFlag}
 
-  # show the success
+  # show the successful results
   printBoxTop
   printBox "gt checkInAll -m \"${message}\" was succssful"
   printCrossBar
