@@ -138,7 +138,7 @@ gtShowStatus() {
       cmdOutput="${cmdOutput//$'\t'/ }"       # remove tabs
 
       if [[ ${#cmdOutput} -eq 0 ]]; then
-        msg="no changes"
+        msgList=("no changes")
       else
         msgList=()
         lines=(${(f)cmdOutput})
