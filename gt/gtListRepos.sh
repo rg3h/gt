@@ -11,8 +11,8 @@
 
 printGtListReposHelp() {
   printBoxTop
-  local msg="gt [listRepos | lr] [--sort [date|name|private|public]]"
-  printBox "${BOLD}${msg}${RESET}" 80
+  local msg="gt {listRepos | lr} [--sort [date|name|private|public]]"
+  printBox "${BOLD}${msg}${RESET}"
   printCrossBar
   printBox "lists up to 100 of your remote repos in a table"
   printBox "  --help | -h | -?  issues this help"

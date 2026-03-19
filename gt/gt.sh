@@ -27,7 +27,7 @@ source ${FULL_PATH_NAME}/gtAddRepo.sh
 source ${FULL_PATH_NAME}/gtCheckInAll.sh
 source ${FULL_PATH_NAME}/gtDelRepo.sh
 source ${FULL_PATH_NAME}/gtListRepos.sh
-source ${FULL_PATH_NAME}/gtRepoStatus.sh
+source ${FULL_PATH_NAME}/gtStatus.sh
 
 # print gt help in a nice box
 printGtHelp() {
@@ -35,17 +35,17 @@ printGtHelp() {
   local appName="${GT_APP_NAME} (v$GT_VERSION):"
   local appDescription="an easy-to-use tool for git and github"
   local msg="${BOLD}$appName $appDescription${BOLD_OFF}"
-  printBox "$msg" 81
+  printBox "$msg"
 
   printBox "example: ${GT_APP_NAME} addRepo myNewRepo --private"
   printCrossBar
-  printBox "help       | --help    | -h | -? .. show this help"
-  printBox "version    | --version | -v |...... show the version (v$GT_VERSION)"
-  printBox "listRepos  | lr.................... list your gitHub repos"
-  printBox "addRepo    | ar ................... add a new repo"
-  printBox "delRepo    | dr ................... delete a repo from github"
-  printBox "repoStatus | rs.................... show status of the current repo"
-  printBox "checkInAll | cia................... git pull, add, commit, push"
+  printBox "help       | --help    | -h | -? show this help"
+  printBox "version    | --version | -v .....show the version (v$GT_VERSION)"
+  printBox "listRepos  | lr .................list your gitHub repos"
+  printBox "addRepo    | ar .................add a new repo"
+  printBox "delRepo    | dr .................delete a repo from github"
+  printBox "status ..........................show status of the current repo"
+  printBox "checkInAll | cia ................git pull, add, commit, push"
   printBoxBottom
 }
 
@@ -165,8 +165,8 @@ runGtCmd() {
       gtListRepos ${paramList}
       ;;
 
-    "repostatus" | "rs")
-      gtRepoStatus ${paramList}
+    "status" | "stat")
+      gtStatus ${paramList}
       ;;
 
     "version")

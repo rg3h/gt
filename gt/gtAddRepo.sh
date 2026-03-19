@@ -13,8 +13,8 @@ printGtAddRepoHelp() {
   local msg=""
 
   printBoxTop
-  msg="gt [addRepo | ar] remoteRepoName [localRepoName] [--private]"
-  printBox "${BOLD}${msg}${RESET}" 80
+  msg="gt {addRepo | ar} remoteRepoName [localRepoName] [--private]"
+  printBox "${BOLD}${msg}${RESET}"
   printCrossBar
   printBox "adds a github remote repo and a local repo directory"
   printBox "  --help | -h | -? issues this help"
@@ -25,7 +25,7 @@ printGtAddRepoHelp() {
   printBox " gt addRepo myRepo .  # add a remote w/ local repo in current dir"
   printBox " gt addRepo myRepo --private"
   printBox " gt addRepo myRepo myLocalRepoName"
-  printBox " gt addRepo myRepo myLocalRepoName --private"
+  printBox " gt ar myRepo myLocalRepoName --private"
   printBoxBottom
 }
 

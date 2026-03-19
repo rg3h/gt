@@ -61,38 +61,40 @@ printBoxRight() {
 }
 
 
-# printBox "this is text" 70 -- total width includes text, 2 spaces, side bars
+# usage: printBox "this is text"
 printBox() {
-  local text=""
-  local width=$((70 - 4))
-
-  if [[ $1 == <-> ]]; then    # <-> means matches a number
-    text=""
-    width=$(($1 - 4))
-  else
-    if [[ ${#1} -gt 0 ]]; then
-      text=$1
-      if [[ $2 == <-> ]]; then
-        width=$(($2 - 4))
-      fi
-    fi
-  fi
+  local width=66   # 70 - 4 for margin and vertical bars
+  local escFreeLine=""
+  local lineSuffix=""
+  local padding=0
 
   # if the text is multi-line, split into individual lines
-  local linesList=("${(f)text}")
-  # if [[ ${#linesList[@]} -gt 1 ]]; then
-  #   printCrossBar
-  # fi
-
-  # if the individual line is too long, truncate and append "..."
+  local linesList=("${(f)1}")
   for line in "${linesList[@]}"; do
-    # trim a long string
-    if [[ ${#line} -gt ${width} ]]; then line="${line[1,(($width-3))]}..."; fi
-    local lineWidth=$(($width - ${#line}))
-    if [[ lineWidth -lt 0 ]]; then lineWidth=0; fi
+    # escFreeLine="${(Q)line}"
+    # escFreeLine=$(echo "$line" | sed -E $'s/\x1b\\[[0-9;]*m//g')
+    escFreeLine=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g')
+
+    # trim a long string and add ... but be careful of trailing esc chars
+    if [[ ${#escFreeLine} -gt ${width} ]]; then
+      lineSuffix="${line: -12}"
+      # print "line and line suffix" ${escFreeLine} ${line} ${lineSuffix}
+
+      if [[ $lineSuffix == *'\x1B'* ]]; then   # has trailing escape chars
+        line="${line[1,(($width-15))]}..."${lineSuffix}
+      else
+        line="${line[1,(($width-3))]}...";
+      fi
+    fi
+
+    # print a vertical bar, the line, any needed padding, and a vertical bar
     printf "%b " ${V_LINE}
-    printf ${line}
-    repeat ${lineWidth} printf " "
+    if [[ ${#line} -gt 0 ]]; then printf ${line}; fi
+
+    padding=$(($width - ${#escFreeLine}))
+    if [[ ${padding} -gt 0 ]]; then
+      repeat ${padding} printf " "
+    fi
     printf " %b\n" ${V_LINE}
   done
 }
@@ -113,7 +115,7 @@ gtPrintBoxWithHeader() {
 gtPrintErrorBox() {
   local first=true
 
-  printf ${BOLD_RED}
+  printf ${BRIGHT_RED}
   printBoxTop
 
   for item in "${@}"; do

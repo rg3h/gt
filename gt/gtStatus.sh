@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-# @fileoverview gtRepoStatus.sh checks in all files in a repo
+# @fileoverview gtStatus.sh checks in all files in a repo
 #  by doing a pull, add -A, commit -m, push
 #                     _
 #  _      _      __ _| |_
@@ -9,29 +9,30 @@
 #               |___/
 #
 
-printGtRepoStatusHelp() {
+printGtStatusHelp() {
   local msg=""
 
   printBoxTop
-  msg="gt [repoStatus | rs]"
-  printBox "${BOLD}${msg}${RESET}" 80
+  msg="gt [status | rs]"
+  printBox "${BOLD}${msg}${RESET}"
   printCrossBar
   printBox "shows the status of the local and remote repo"
   printBox "  --help    | -h | -? issues this help"
   # printBox "  --verbose | -v      shows more details"
+  # printBox "  --owner --other --org --history --details --log"
   printBoxBottom
 }
 
 
-# called after parsing gtRepoStatus() args
-debugPrintGtRepoStatusArgList() {
+# called after parsing gtStatus() args
+debugPrintGtStatusArgList() {
   if [[ $(gtDebugIsOn) -eq 0 ]]; then return ; fi
 
   local resultStatus=$1
   local helpFlag=$2
   local verboseFlag=$3
 
-  gtDebugPrint "gtRepoStatus parsed arguments are..."
+  gtDebugPrint "gtStatus parsed arguments are..."
   gtDebugPrint "  resultStatus " ${resultStatus}
   gtDebugPrint "  helpFlag     " ${helpFlag}
   # gtDebugPrint "  verboseFlag  " ${verboseFlag}  # verbose not implemented yet
@@ -39,7 +40,7 @@ debugPrintGtRepoStatusArgList() {
 
 
 # process the argList into an array of GT parameters with cmd as first element
-processGtRepoStatusArgList() {
+processGtStatusArgList() {
   local resultStatus=${GT_STATUS_OK}
   local helpFlag=0
   local verboseFlag=0
@@ -56,9 +57,9 @@ processGtRepoStatusArgList() {
           helpFlag=1
           ;;
 
-        "--verbose" | "-v")
-          verboseFlag=1
-          ;;
+#       "--verbose" | "-v")
+#         verboseFlag=1
+#         ;;
 
         *)
           resultStatus="${GT_STATUS_UNKNOWN_PARAMETER} ${arg}"
@@ -76,29 +77,29 @@ processGtRepoStatusArgList() {
 
 
 # if helpFlag set, print help and exit
-handleRepoStatusHelpFlag() {
+handleStatusHelpFlag() {
   local helpFlag=${1}
   if [[ ${helpFlag} -eq 1 ]]; then
-    printGtRepoStatusHelp
+    printGtStatusHelp
     exit
   fi
 }
 
 
 # if resultStatus not ok, print error and quit
-handleRepoStatusResultStatus() {
+handleStatusResultStatus() {
   local resultStatus=${1}
   if [[ ${resultStatus} != ${GT_STATUS_OK} ]]; then
     gtPrintErrorBox ${resultStatus}
-    printGtRepoStatusHelp
+    printGtStatusHelp
     exit
   fi
 }
 
 
 # show the local and remote status
-# gtShowRepoStatus ${verboseFlag}
-gtShowRepoStatus() {
+# gtShowStatus ${verboseFlag}
+gtShowStatus() {
   local cmdOutput=""
   local cmdStatus=0
   local verboseFlag=${1}
@@ -107,36 +108,72 @@ gtShowRepoStatus() {
   local remoteRepoUrl=""
   local remoteRepoChanges=""
   local errorMsg=""
+  local msgList=()
+  local lines=()
+  local trackingParameter=""
+  local filename=""
 
   # verbose not implemented yet
   if [[ ${verboseFlag} -eq 1 ]]; then
-    # print "gtShowRepoStatus is verbose"
+    print "gt status verbose not implemented yet"
   fi
 
-  ### get the local repo url
+  # get the local repo url
   if [[ ${cmdStatus} -eq 0 ]]; then
-    localRepoUrl=$(git rev-parse --absolute-git-dir)
-    cmdStatus=$?
-    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${localRepoUrl}"; fi
-  fi
-
-  ### get the local repo status
-  if [[ ${cmdStatus} -eq 0 ]]; then
-    localRepoChanges=$(git status -sb 2>&1)
+    cmdOutput=$(git rev-parse --absolute-git-dir)
     cmdStatus=$?
     if [[ ${cmdStatus} -eq 0 ]]; then
-      localRepoChanges=$(echo "$localRepoChanges" | sed 1d) # remove 1st line
-      localRepoChanges="${localRepoChanges//$'\t'/ }"       # remove tabs
-      localRepoChanges=$(echo "$localRepoChanges" | sed 's/?? /UNTRACKED: /')
-      localRepoChanges=$(echo "$localRepoChanges"  | sed 's/A /ADDED:     /')
-      localRepoChanges=$(echo "$localRepoChanges" | sed 's/ M /MODIFIED:  /')
-      localRepoChanges=$(echo "$localRepoChanges" | sed 's/ D /DELETED:   /')
-
-      if [[ ${#localRepoChanges} -eq 0 ]]; then
-        localRepoChanges="no changes"
-      fi
+      localRepoUrl="${cmdOutput}"
     else
-      errorMsg="${localRepoChanges}";
+      errorMsg="${localRepoUrl}"
+    fi
+  fi
+
+  # get the local repo status
+  if [[ ${cmdStatus} -eq 0 ]]; then
+    cmdOutput=$(git status -sb 2>&1)
+    cmdStatus=$?
+    if [[ ${cmdStatus} -eq 0 ]]; then
+      cmdOutput=$(echo "$cmdOutput" | sed 1d) # remove 1st line
+      cmdOutput="${cmdOutput//$'\t'/ }"       # remove tabs
+
+      if [[ ${#cmdOutput} -eq 0 ]]; then
+        msg="no changes"
+      else
+        msgList=()
+        lines=(${(f)cmdOutput})
+        for line in "${lines[@]}"; do
+          trackingParameter="${line:0:2}"
+          filename="${line:3}"
+
+          case ${trackingParameter} in
+            "??")
+              msgList+=${BRIGHT_WHITE}"UNTRACKED: ${filename}"${RESET_COLOR}
+              ;;
+
+            "A " | " A")
+              msgList+=${BRIGHT_GREEN}"ADDED:     ${filename}"${RESET_COLOR}
+              ;;
+
+            "M " | " M")
+              msgList+=${BRIGHT_CYAN}"MODIFIED:  ${filename}"${RESET_COLOR}
+              ;;
+
+            "D " | " D")
+              msgList+=${BRIGHT_RED}"DELETED:   ${filename}"${RESET_COLOR}
+              ;;
+
+            *)
+              msgList+=${BRIGHT_MAGENTA}"UNKNOWN:   [${trackingParameter}] ${filename}"${RESET_COLOR}
+              ;;
+          esac
+        done
+      fi
+
+      msgList=("${(o)msgList[@]}")                      # sort the list
+      localRepoChanges=$(printf "%s\n" "${msgList[@]}") # turn into \n sep str
+    else
+      errorMsg="${cmdOutput}";
     fi
   fi
 
@@ -191,26 +228,26 @@ gtShowRepoStatus() {
     printBox ${remoteRepoChanges}
     printBoxBottom
   else
-    gtPrintErrorBox "gt repoStatus error: ${cmdStatus}" ${errorMsg}
+    gtPrintErrorBox "gt status error: ${cmdStatus}" ${errorMsg}
   fi
 
 }
 
 
-# called by gt.sh -- the main entry point for gtRepoStatus
-gtRepoStatus() {
+# called by gt.sh -- the main entry point for gtStatus
+gtStatus() {
   # gtDebugOn
 
-  # process the input args and store the results in an array
-  local resultList=("${(@Q)${(z)$(processGtRepoStatusArgList ${@})}}")
+   # process the input args and store the results in an array
+  local resultList=("${(@Q)${(z)$(processGtStatusArgList ${@})}}")
   local resultStatus=${resultList[1]}
   local helpFlag=${resultList[2]}
   local verboseFlag=${resultList[3]}
 
-  debugPrintGtRepoStatusArgList "${resultStatus}" "${helpFlag}" "${verboseFlag}"
+  debugPrintGtStatusArgList "${resultStatus}" "${helpFlag}" "${verboseFlag}"
 
-  handleRepoStatusHelpFlag ${helpFlag}         # if --help print and quit
-  handleRepoStatusResultStatus ${resultStatus} # if error w/ args, print & quit
+  handleStatusHelpFlag ${helpFlag}         # if --help print and quit
+  handleStatusResultStatus ${resultStatus} # if error w/ args, print & quit
 
-  gtShowRepoStatus ${verboseFlag}
+  gtShowStatus ${verboseFlag}
 }

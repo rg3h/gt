@@ -10,7 +10,7 @@
 
 printGtDelRepoHelp() {
   printBoxTop
-  printBox "${BOLD}gt [delRepo | dr] remoteRepoName [--yes]${RESET}" 80
+  printBox "${BOLD}gt {delRepo | dr} remoteRepoName [--yes]${RESET}" 80
   printCrossBar
   printBox "deletes the remote repo but does NOT delete the local repo dir"
   printBox "  --help | -h | -? issues this help"

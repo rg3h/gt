@@ -15,7 +15,7 @@ printGtCheckInAllHelp() {
 
   printBoxTop
   msg="gt {checkInAll | cia} msg"
-  printBox "${BOLD}${msg}${RESET}" 80
+  printBox "${BOLD}${msg}${RESET}"
   printCrossBar
   printBox "does a git pull, add . commit, and push"
   printBox "  --help  | -h | -? issues this help"
@@ -265,7 +265,7 @@ gtCheckInAll() {
 
   # show the successful results
   printBoxTop
-  printBox "gt checkInAll -m \"${message}\" was succssful"
+  printBox "Success! gt checkInAll -m \"${message}\""
   printCrossBar
   printBox "files pushed:"
   printBox "${globalFilesPushed}"
