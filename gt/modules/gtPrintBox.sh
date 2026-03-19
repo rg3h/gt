@@ -27,7 +27,7 @@ printCrossBar() {
 }
 
 
-# printBoxTop 70  -- total width includes the two corner characters
+# printBoxTop -- total width includes the two corner characters
 printBoxTop() {
   local width=$((70 - 2))
 
@@ -36,7 +36,7 @@ printBoxTop() {
 }
 
 
-# printBoxBottom 70  -- total width includes the two corner characters
+# printBoxBottom -- total width includes the two corner characters
 printBoxBottom() {
   local width=$((70 - 2))
 
@@ -61,72 +61,112 @@ printBoxRight() {
 }
 
 
-# usage: printBox "this is text"
-printBox() {
-  local width=66   # 70 - 4 for margin and vertical bars
+# prints a line for a box with vertical bars on either end.
+# it will trim the text, making sure to handle:
+#   multi-line text
+#   trimming too-ling text
+#   preserving the escape codes if the line is trimmed
+# usage: printBoxLine "this is text"
+printBoxLine() {
+  local width=66   # 70 wide but -4 for margin and vertical bars
+  local trimWidth=$(($width - 3))
+  local inputStr=$1
+  if [[ ${#inputStr} -lt 1 ]]; then inputStr=" "; fi
+  local escFreeStr=$(echo "${inputStr}" | sed 's/\x1b\[[0-9;]*m//g')
+  local trailingEscCodes=""
+  local origLine=""
   local escFreeLine=""
-  local lineSuffix=""
-  local padding=0
+  local newLine=""
+  local excess=0
+  local padCount=0
+  local padChar=' '
+  local padding=""
+  local i=0
 
-  # if the text is multi-line, split into individual lines
-  local linesList=("${(f)1}")
-  for line in "${linesList[@]}"; do
-    # escFreeLine="${(Q)line}"
-    # escFreeLine=$(echo "$line" | sed -E $'s/\x1b\\[[0-9;]*m//g')
-    escFreeLine=$(echo "$line" | sed 's/\x1b\[[0-9;]*m//g')
+  # create a copy of the original string with no escape codes
+  # using one sed command to speed things up.
+  # the input string may be made up of several lines so we split it
+  # and see if each unescaped line is too long. If so, we need
+  # to trim the line without trimming the escape codes at the end.
+  # To do this:
+  #   save any escape codes at the end of the original line
+  #   trim the original line
+  #   add "..."
+  #   add back the escape codes
 
-    # trim a long string and add ... but be careful of trailing esc chars
-    if [[ ${#escFreeLine} -gt ${width} ]]; then
-      lineSuffix="${line: -12}"
-      # print "line and line suffix" ${escFreeLine} ${line} ${lineSuffix}
+  # the text might be multi-line, split into individual lines
+  local origInputAsList=("${(f)inputStr}")
+  local escFreeStrAsList=("${(f)escFreeStr}")
+  local lineCount=${#escFreeStrAsList}
 
-      if [[ $lineSuffix == *'\x1B'* ]]; then   # has trailing escape chars
-        line="${line[1,(($width-15))]}..."${lineSuffix}
-      else
-        line="${line[1,(($width-3))]}...";
+  for ((i=1; i<=$lineCount; i++)); do
+    origLine=${origInputAsList[$i]}
+    escFreeLine=${escFreeStrAsList[$i]}
+
+    if [[ ${#escFreeLine} -gt ${width} ]]; then   # trim and add ...
+      # print "too long" ${#escFreeLine} ${#origLine} ${trimWidth}
+      local trailingEscCodes="${(e)origLine##*${escFreeLine}}"
+      # print "trailing esc code length:" ${#trailingEscCodes}
+
+      excess=$(( -1 * (${#escFreeLine} - ${width} + ${#trailingEscCodes} + 4) ))
+      # print "excess:" ${excess}
+
+      newLine="${origLine[1,${excess}]}...${trailingEscCodes}"
+      printf "%b %s %b\n" ${V_LINE} ${newLine} ${V_LINE}
+    else
+      padCount=$(($width - ${#escFreeLine}))
+      if [[ ${padCount} -gt 0 ]]; then
+        padding=${(pl:${padCount}::$padChar:)}
       fi
+      printf "%b %s%s %b\n" ${V_LINE} ${origLine} ${padding} ${V_LINE}
     fi
-
-    # print a vertical bar, the line, any needed padding, and a vertical bar
-    printf "%b " ${V_LINE}
-    if [[ ${#line} -gt 0 ]]; then printf ${line}; fi
-
-    padding=$(($width - ${#escFreeLine}))
-    if [[ ${padding} -gt 0 ]]; then
-      repeat ${padding} printf " "
-    fi
-    printf " %b\n" ${V_LINE}
   done
 }
 
 
-# usage: printBoxWithHeader "${header}" "${text}"
-gtPrintBoxWithHeader() {
-  # if [[ $# -lt 2 ]]; then noheader; fi
+# prints a box around the text
+# usage: printBox "this is text"
+printBox() {
   printBoxTop
-  printBox "${1}"
-  printCrossBar
-  printBox "${2}"
+  printBoxLine ${1}
   printBoxBottom
 }
 
+
+# prints a box around the text. First param above the bar, rest below
+# usage: printBoxWithHeader "${header}" "${text}"
+gtPrintBoxWithHeader() {
+  if [[ "$#" -lt 1 ]]; then
+    return
+  elif [[ "$#" -eq 1 ]]; then
+    printBox $1
+  else
+    remainingArgs="${@[2,-1]}"
+    printBoxTop
+    printBoxLine "${1}"
+    printCrossBar
+    printBoxLine "${remainingArgs}"
+    printBoxBottom
+  fi
+}
 
 # print a red box with an error symbol in it
 gtPrintErrorBox() {
   local first=true
 
   printf ${BRIGHT_RED}
-  printBoxTop
+  printBox "${@}"
+  printf ${CLR_COLOR}
 
-  for item in "${@}"; do
-    if ${first}; then
-      printBox "${ERROR_SYMBOL}  ${item}" 75
-      first=false
-    else
-      printBox "   ${item}"
-    fi
-  done
-
-  printBoxBottom
-  printf ${RESET}
+#  for item in "${@}"; do
+#    if ${first}; then
+#      printBoxLine "${ERROR_SYMBOL}  ${item}"
+#      first=false
+#    else
+#      printBoxLine "   ${item}"
+#    fi
+#  done
+#
+#  printBoxBottom
+#  printf ${CLR_COLOR}
 }

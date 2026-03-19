@@ -13,17 +13,19 @@ GT_DEBUG=0
 
 # if DEBUG=1 prints the input args in grey
 gtDebugPrint() {
-  if [[ ${GT_DEBUG} -eq 1 ]]; then print "${GREY_200}DEBUG:" "${*}" ${RESET}; fi
+  if [[ ${GT_DEBUG} -eq 1 ]]; then
+    print "${GREY_200}DEBUG:" "${*}" ${CLR_COLOR};
+  fi
 }
 
 gtDebugOn() {
   GT_DEBUG=1
-  gtDebugPrint "${BRIGHT_WHITE}ON${RESET}"
+  gtDebugPrint "${BRIGHT_WHITE}ON${CLR_COLOR}"
 }
 
 gtDebugOff() {
   GT_DEBUG=0
-  print "${GREY_200}DEBUG: ${BRIGHT_WHITE}OFF${RESET}"
+  print "${GREY_200}DEBUG: ${BRIGHT_WHITE}OFF${CLR_COLOR}"
 }
 
 gtDebugIsOn() {

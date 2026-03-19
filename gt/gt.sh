@@ -9,10 +9,10 @@
 #
 
 # global to all gt apps
-GT_APP_NAME="gt"
 GT_VERSION="1.1.0"
 FULL_PATH_NAME="${${0:h}//\\//}"
-OWNER=""
+OWNER=$(gh api user -q .login)
+
 
 # support modules
 source ${FULL_PATH_NAME}/modules/gtStatusCodes.sh
@@ -32,20 +32,25 @@ source ${FULL_PATH_NAME}/gtStatus.sh
 # print gt help in a nice box
 printGtHelp() {
   printBoxTop
-  local appName="${GT_APP_NAME} (v$GT_VERSION):"
+  local appName="gt (v$GT_VERSION):"
   local appDescription="an easy-to-use tool for git and github"
   local msg="${BOLD}$appName $appDescription${BOLD_OFF}"
-  printBox "$msg"
-
-  printBox "example: ${GT_APP_NAME} addRepo myNewRepo --private"
+  printBoxLine "$msg"
   printCrossBar
-  printBox "help       | --help    | -h | -? show this help"
-  printBox "version    | --version | -v .....show the version (v$GT_VERSION)"
-  printBox "listRepos  | lr .................list your gitHub repos"
-  printBox "addRepo    | ar .................add a new repo"
-  printBox "delRepo    | dr .................delete a repo from github"
-  printBox "status ..........................show status of the current repo"
-  printBox "checkInAll | cia ................git pull, add, commit, push"
+  printBoxLine "help       | --help    | -h | -? show this help"
+  printBoxLine "version    | --version | -v .....show the version (v$GT_VERSION)"
+  printBoxLine "listRepos  | lr .................list your gitHub repos"
+  printBoxLine "addRepo    | ar .................add a new repo"
+  printBoxLine "delRepo    | dr .................delete a repo from github"
+  printBoxLine "checkInAll | cia ................git pull, add, commit, push"
+  printBoxLine "status ..........................show status of the current repo"
+  printBoxLine
+  printBoxLine "examples:"
+  printBoxLine " gt addRepo myNewRepo"
+  printBoxLine " gt ar anotherRepo --private"
+  printBoxLine " gt status"
+  printBoxLine " gt listrepos"
+  printBoxLine " gt delRepo anotherRepo --yes"
   printBoxBottom
 }
 
@@ -185,9 +190,6 @@ runGtCmd() {
 main() {
   # gtDebugOn
 
-  # globally available to all gt apps
-  OWNER=$(gtGetOwner)
-
   local resultList=("${(@Q)${(z)$(processGtArgList ${@})}}")
   local resultStatus="${resultList[1]}"
   local cmd=${resultList[2]}
@@ -202,6 +204,7 @@ main() {
   fi
 
   runGtCmd ${cmd} ${paramList}
+  print ${CLR_TEXT}
 }
 
 main $@

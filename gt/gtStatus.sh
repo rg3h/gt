@@ -13,13 +13,13 @@ printGtStatusHelp() {
   local msg=""
 
   printBoxTop
-  msg="gt [status | rs]"
-  printBox "${BOLD}${msg}${RESET}"
+  msg="gt {status | rs}"
+  printBoxLine "${BOLD}${msg}${CLR_TEXT}"
   printCrossBar
-  printBox "shows the status of the local and remote repo"
-  printBox "  --help    | -h | -? issues this help"
-  # printBox "  --verbose | -v      shows more details"
-  # printBox "  --owner --other --org --history --details --log"
+  printBoxLine "shows the status of the local and remote repo"
+  printBoxLine "  --help    | -h | -? issues this help"
+  # printBoxLine "  --verbose | -v      shows more details"
+  # printBoxLine "  --owner --other --org --history --details --log"
   printBoxBottom
 }
 
@@ -134,8 +134,7 @@ gtShowStatus() {
     cmdOutput=$(git status -sb 2>&1)
     cmdStatus=$?
     if [[ ${cmdStatus} -eq 0 ]]; then
-      cmdOutput=$(echo "$cmdOutput" | sed 1d) # remove 1st line
-      cmdOutput="${cmdOutput//$'\t'/ }"       # remove tabs
+      cmdOutput=$(echo "$cmdOutput" | sed '1d;s/\t//g') # del 1st line and tabs
 
       if [[ ${#cmdOutput} -eq 0 ]]; then
         msgList=("no changes")
@@ -148,23 +147,23 @@ gtShowStatus() {
 
           case ${trackingParameter} in
             "??")
-              msgList+=${BRIGHT_WHITE}"UNTRACKED: ${filename}"${RESET_COLOR}
+              msgList+=${BRIGHT_WHITE}"UNTRACKED: ${filename}"${CLR_COLOR}
               ;;
 
             "A " | " A")
-              msgList+=${BRIGHT_GREEN}"ADDED:     ${filename}"${RESET_COLOR}
+              msgList+=${BRIGHT_GREEN}"ADDED:     ${filename}"${CLR_COLOR}
               ;;
 
             "M " | " M")
-              msgList+=${BRIGHT_CYAN}"MODIFIED:  ${filename}"${RESET_COLOR}
+              msgList+=${BRIGHT_CYAN}"MODIFIED:  ${filename}"${CLR_COLOR}
               ;;
 
             "D " | " D")
-              msgList+=${BRIGHT_RED}"DELETED:   ${filename}"${RESET_COLOR}
+              msgList+=${BRIGHT_RED}"DELETED:   ${filename}"${CLR_COLOR}
               ;;
 
             *)
-              msgList+=${BRIGHT_MAGENTA}"UNKNOWN:   [${trackingParameter}] ${filename}"${RESET_COLOR}
+              msgList+=${BRIGHT_MAGENTA}"UNKNOWN:   [${trackingParameter}] ${filename}"${CLR_COLOR}
               ;;
           esac
         done
@@ -185,52 +184,62 @@ gtShowStatus() {
   fi
 
   ### get the remote repo status
+  local delTabs="s/\t//g"
+  local fixUntracked="s/?? /UNTRACKED: /"
+  local fixAdd="s/A /ADDED:     /"
+  local fixMod="s/M /MODIFIED:  /"
+  local fixDel="s/D /DELETED:   /"
+
+  # local sedCmd="${fixUntracked};${fixAdd};${fixMod};${fixDel}"
+  # local sedCmd="s/\t//g"
+  # local sedCmd="${delTabs}
+  local sedCmd="${delTabs};${fixUntracked};${fixAdd};${fixMod};${fixDel}"
+
   if [[ ${cmdStatus} -eq 0 ]]; then
     # first fetch the remote and stick it in the .git dir
     local fetchResults=$(git fetch --all 2>&1)
     cmdStatus=$?
-    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${fetchResults}"; fi
+    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${fetchResults}"; break; fi
 
     # now get the differences
-    if [[ ${cmdStatus} -eq 0 ]]; then
-      remoteRepoChanges=$(git diff --name-status main origin/main 2>&1)
-      cmdStatus=$?
-      if [[ ${cmdStatus} -eq 0 ]]; then
-        remoteRepoChanges="${remoteRepoChanges//$'\t'/ }"     # remove tabs
-        remoteRepoChanges=$(echo "$remoteRepoChanges"| sed 's/?? /UNTRACKED: /')
-        remoteRepoChanges=$(echo "$remoteRepoChanges" | sed 's/A /ADDED:     /')
-        remoteRepoChanges=$(echo "$remoteRepoChanges" | sed 's/M /MODIFIED:  /')
-        remoteRepoChanges=$(echo "$remoteRepoChanges" | sed 's/D /DELETED:   /')
-        if [[ ${#remoteRepoChanges} -eq 0 ]]; then
-          remoteRepoChanges="no changes"
-        fi
-      elif [[ ${cmdStatus} -eq 128 ]]; then
-        remoteRepoChanges="empty remote repository"
-        cmdStatus=0
-      else
-        errorMsg="${remoteRepoChanges}";
-      fi
+    remoteRepoChanges=$(git diff --name-status main origin/main 2>&1)
+    cmdStatus=$?
+    if [[ ${cmdStatus} -eq 128 ]]; then
+      remoteRepoChanges="empty remote repository"
+      cmdStatus=0
+      break
+    elif [[ ${cmdStatus} -ne 0 ]]; then
+      errorMsg="${remoteRepoChanges}";
+      break;
+    fi
+
+    remoteRepoChanges=$(echo "$remoteRepoChanges" | sed ${sedCmd} 2>&1)
+    cmdStatus=$?
+
+    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${remoteRepoChanges}";break;fi
+
+    if [[ ${#remoteRepoChanges} -eq 0 ]]; then
+      remoteRepoChanges="no changes"
     fi
   fi
 
-
   ### print the status or the error
+  print ${CLR_LINE}
   if [[ ${cmdStatus} -eq 0 ]]; then
     printBoxTop
-    printBox "LOCAL repo: ${localRepoUrl}"
+    printBoxLine "LOCAL repo: ${localRepoUrl}"
     printCrossBar
-    printBox "${localRepoChanges}"
+    printBoxLine "${localRepoChanges}"
     printBoxBottom
     print " "
     printBoxTop
-    printBox "REMOTE repo: ${remoteRepoUrl}"
+    printBoxLine "REMOTE repo: ${remoteRepoUrl}"
     printCrossBar
-    printBox ${remoteRepoChanges}
+    printBoxLine ${remoteRepoChanges}
     printBoxBottom
   else
     gtPrintErrorBox "gt status error: ${cmdStatus}" ${errorMsg}
   fi
-
 }
 
 
@@ -238,7 +247,7 @@ gtShowStatus() {
 gtStatus() {
   # gtDebugOn
 
-   # process the input args and store the results in an array
+  # process the input args and store the results in an array
   local resultList=("${(@Q)${(z)$(processGtStatusArgList ${@})}}")
   local resultStatus=${resultList[1]}
   local helpFlag=${resultList[2]}
@@ -249,5 +258,6 @@ gtStatus() {
   handleStatusHelpFlag ${helpFlag}         # if --help print and quit
   handleStatusResultStatus ${resultStatus} # if error w/ args, print & quit
 
+  printf "getting status..."
   gtShowStatus ${verboseFlag}
 }

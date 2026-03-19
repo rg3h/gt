@@ -10,15 +10,15 @@
 
 printGtDelRepoHelp() {
   printBoxTop
-  printBox "${BOLD}gt {delRepo | dr} remoteRepoName [--yes]${RESET}" 80
+  printBoxLine "${BOLD}gt {delRepo | dr} remoteRepoName [--yes]${CLR_COLOR}"
   printCrossBar
-  printBox "deletes the remote repo but does NOT delete the local repo dir"
-  printBox "  --help | -h | -? issues this help"
-  printBox "  --yes skips the confirmation check"
-  printBox " "
-  printBox "examples:"
-  printBox " gt delRepo myRepo  # deletes the remote repo named myRepo"
-  printBox " gt delRepo myRepo --yes # deletes remote repo w/o confirming"
+  printBoxLine "deletes the remote repo but does NOT delete the local repo dir"
+  printBoxLine "  --help | -h | -? issues this help"
+  printBoxLine "  --yes skips the confirmation check"
+  printBoxLine " "
+  printBoxLine "examples:"
+  printBoxLine " gt delRepo myRepo  # deletes the remote repo named myRepo"
+  printBoxLine " gt delRepo myRepo --yes # deletes remote repo w/o confirming"
   printBoxBottom
 }
 

@@ -12,17 +12,17 @@
 printGtListReposHelp() {
   printBoxTop
   local msg="gt {listRepos | lr} [--sort [date|name|private|public]]"
-  printBox "${BOLD}${msg}${RESET}"
+  printBoxLine "${BOLD}${msg}${CLR_COLOR}"
   printCrossBar
-  printBox "lists up to 100 of your remote repos in a table"
-  printBox "  --help | -h | -?  issues this help"
-  printBox "  --sort | -s [date|name|private] sorts by one of these fields"
-  printBox " "
-  printBox "examples:"
-  printBox " gt listRepos         # lists your repos sorted by date"
-  printBox " gt lr --sort name    # lists your repos sorted by name"
-  printBox " gt lr --sort private # lists your repos with private ones first"
-  printBox " gt lr --sort public  # lists your repos with public ones first"
+  printBoxLine "lists up to 100 of your remote repos in a table"
+  printBoxLine "  --help | -h | -?  issues this help"
+  printBoxLine "  --sort | -s [date|name|private] sorts by one of these fields"
+  printBoxLine " "
+  printBoxLine "examples:"
+  printBoxLine " gt listRepos         # lists your repos sorted by date"
+  printBoxLine " gt lr --sort name    # lists your repos sorted by name"
+  printBoxLine " gt lr --sort private # lists your repos with private ones first"
+  printBoxLine " gt lr --sort public  # lists your repos with public ones first"
   printBoxBottom
 }
 

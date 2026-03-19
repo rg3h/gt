@@ -14,18 +14,18 @@ printGtAddRepoHelp() {
 
   printBoxTop
   msg="gt {addRepo | ar} remoteRepoName [localRepoName] [--private]"
-  printBox "${BOLD}${msg}${RESET}"
+  printBoxLine "${BOLD}${msg}${CLR_COLOR}"
   printCrossBar
-  printBox "adds a github remote repo and a local repo directory"
-  printBox "  --help | -h | -? issues this help"
-  printBox "  --private adds a private repo (default is public)"
-  printBox " "
-  printBox "examples:"
-  printBox " gt addRepo myRepo    # add a local and remote repo named myRepo"
-  printBox " gt addRepo myRepo .  # add a remote w/ local repo in current dir"
-  printBox " gt addRepo myRepo --private"
-  printBox " gt addRepo myRepo myLocalRepoName"
-  printBox " gt ar myRepo myLocalRepoName --private"
+  printBoxLine "adds a github remote repo and a local repo directory"
+  printBoxLine "  --help | -h | -? issues this help"
+  printBoxLine "  --private adds a private repo (default is public)"
+  printBoxLine " "
+  printBoxLine "examples:"
+  printBoxLine " gt addRepo myRepo   # add local and remote repo named myRepo"
+  printBoxLine " gt addRepo myRepo . # add remote w/ local repo in current dir"
+  printBoxLine " gt addRepo myRepo --private"
+  printBoxLine " gt addRepo myRepo myLocalRepoName"
+  printBoxLine " gt ar myRepo myLocalRepoName --private"
   printBoxBottom
 }
 

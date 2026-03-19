@@ -15,16 +15,16 @@ printGtCheckInAllHelp() {
 
   printBoxTop
   msg="gt {checkInAll | cia} msg"
-  printBox "${BOLD}${msg}${RESET}"
+  printBoxLine "${BOLD}${msg}${CLR_COLOR}"
   printCrossBar
-  printBox "does a git pull, add . commit, and push"
-  printBox "  --help  | -h | -? issues this help"
-  printBox "  --quiet | -q | shows less details"
-  printBox " "
-  printBox "examples:"
-  printBox " gt checkInAll \"updated README.md\""
-  printBox " gt cia -q updated logo"
-  printBox " gt cia \"fixed index.html\" -q"
+  printBoxLine "does a git pull, add . commit, and push"
+  printBoxLine "  --help  | -h | -? issues this help"
+  printBoxLine "  --quiet | -q | shows less details"
+  printBoxLine " "
+  printBoxLine "examples:"
+  printBoxLine " gt checkInAll \"updated README.md\""
+  printBoxLine " gt cia -q updated logo"
+  printBoxLine " gt cia \"fixed index.html\" -q"
   printBoxBottom
 }
 
@@ -188,7 +188,7 @@ gtCheckInCommit() {
     # TODO issue a warningBox
     if [[ ${cmdStatus} -eq 1 ]]; then   # branch up to date
       printBoxTop
-      printBox "Nothing done. Branch is already up to date"
+      printBoxLine "Nothing done. Branch is already up to date"
       printBoxBottom
       exit
     elif [[ ${cmdStatus} -ne 0 ]]; then
@@ -265,9 +265,9 @@ gtCheckInAll() {
 
   # show the successful results
   printBoxTop
-  printBox "Success! gt checkInAll -m \"${message}\""
+  printBoxLine "Success! gt checkInAll -m \"${message}\""
   printCrossBar
-  printBox "files pushed:"
-  printBox "${globalFilesPushed}"
+  printBoxLine "files pushed:"
+  printBoxLine "${globalFilesPushed}"
   printBoxBottom
 }
