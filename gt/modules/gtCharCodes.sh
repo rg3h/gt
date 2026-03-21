@@ -14,6 +14,9 @@ ESC=$'\e'
 CLR_LINE="${ESC}[2K"
 CLR_SCREEN="${ESC}[2J"
 CLR_TEXT="${ESC}[0m"
+CLR_FG_COLOR="${ESC}[39m"
+CLR_BG_COLOR="${ESC}[49m"
+CLR_COLOR="$CLR_FG_COLOR$CLR_BG_COLOR"
 
 BOLD="${ESC}[1m"
 BOLD_OFF="${ESC}[24m"
@@ -21,9 +24,6 @@ BOLD_OFF="${ESC}[22m"
 BLINK="${ESC}[5m"
 BLINK_OFF="${ESC}[25m"
 
-CLR_FG_COLOR="${ESC}[39m"
-CLR_BG_COLOR="${ESC}[49m"
-CLR_COLOR="$CLR_FG_COLOR$CLR_BG_COLOR"
 
 # TTY colors
 # TODO: get color level supported

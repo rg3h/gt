@@ -62,64 +62,45 @@ printBoxRight() {
 
 
 # prints a line for a box with vertical bars on either end.
-# it will trim the text, making sure to handle:
+# It will handle:
 #   multi-line text
-#   trimming too-ling text
-#   preserving the escape codes if the line is trimmed
-# usage: printBoxLine "this is text"
+#   trimming too-long text
+#   handling trailing escape codes if the line is trimmed
+# usage: printBoxLine "${GREEN}this is text${CLR_COLOR}\n" "some" "more text"
 printBoxLine() {
-  local width=66   # 70 wide but -4 for margin and vertical bars
-  local trimWidth=$(($width - 3))
-  local inputStr=$1
-  if [[ ${#inputStr} -lt 1 ]]; then inputStr=" "; fi
-  local escFreeStr=$(echo "${inputStr}" | sed 's/\x1b\[[0-9;]*m//g')
-  local trailingEscCodes=""
-  local origLine=""
-  local escFreeLine=""
-  local newLine=""
-  local excess=0
-  local padCount=0
-  local padChar=' '
-  local padding=""
-  local i=0
+  setopt local_options extended_glob
 
-  # create a copy of the original string with no escape codes
-  # using one sed command to speed things up.
-  # the input string may be made up of several lines so we split it
-  # and see if each unescaped line is too long. If so, we need
-  # to trim the line without trimming the escape codes at the end.
-  # To do this:
-  #   save any escape codes at the end of the original line
-  #   trim the original line
-  #   add "..."
-  #   add back the escape codes
+  local width=66        # 70 wide but -4 for margin and vertical bars
+  local inputStr="$@"   # all params collected together
+  # local inputAsList=("${(@s:\n:)inputStr}") # splits str on \n into an array
+  local inputAsList=("${(f)inputStr}")
+  local line=""         # store a line of the inputStr during processing
+  local escFreeLine=""  # line after color escape codes have been removed
 
-  # the text might be multi-line, split into individual lines
-  local origInputAsList=("${(f)inputStr}")
-  local escFreeStrAsList=("${(f)escFreeStr}")
-  local lineCount=${#escFreeStrAsList}
+  local excess=0        # how much longer the string is than the allowed width
+  local truncateCount=0 # how many characters to remove from the line to fit
+  local padding=""      # holds the spaces to pad out the line to the width
 
-  for ((i=1; i<=$lineCount; i++)); do
-    origLine=${origInputAsList[$i]}
-    escFreeLine=${escFreeStrAsList[$i]}
+  # print "linecount:" ${#inputAsList}
+  for line in "${inputAsList[@]}"; do
+    padding=""
+    escFreeLine=${line//$ESC\[[0-9;]##m/}
 
-    if [[ ${#escFreeLine} -gt ${width} ]]; then   # trim and add ...
-      # print "too long" ${#escFreeLine} ${#origLine} ${trimWidth}
-      local trailingEscCodes="${(e)origLine##*${escFreeLine}}"
-      # print "trailing esc code length:" ${#trailingEscCodes}
+    # we need to count "\u26A0" as one character not 5
+    # escFreeLine=${escFreeLine//u[0-9a-fA-F]#####/A}
+    escFreeLine=${escFreeLine//u26A0/}
 
+    # if the excess > 0 then truncate, else pad the line out to the width
+    excess=$((${#escFreeLine} - ${width}))
+
+    if [[ ${excess} -gt 0 ]]; then
+      local trailingEscCodes="${(e)line##*${escFreeLine}}"
       excess=$(( -1 * (${#escFreeLine} - ${width} + ${#trailingEscCodes} + 4) ))
-      # print "excess:" ${excess}
-
-      newLine="${origLine[1,${excess}]}...${trailingEscCodes}"
-      printf "%b %s %b\n" ${V_LINE} ${newLine} ${V_LINE}
+      line="${line[1,${excess}]}...${trailingEscCodes}"
     else
-      padCount=$(($width - ${#escFreeLine}))
-      if [[ ${padCount} -gt 0 ]]; then
-        padding=${(pl:${padCount}::$padChar:)}
-      fi
-      printf "%b %s%s %b\n" ${V_LINE} ${origLine} ${padding} ${V_LINE}
+      padding=${(pl:$((-1 * ${excess})):: :)}
     fi
+    print ${V_LINE} ${line}${padding} ${V_LINE}
   done
 }
 
@@ -128,7 +109,7 @@ printBoxLine() {
 # usage: printBox "this is text"
 printBox() {
   printBoxTop
-  printBoxLine ${1}
+  printBoxLine ${@}
   printBoxBottom
 }
 
@@ -155,18 +136,6 @@ gtPrintErrorBox() {
   local first=true
 
   printf ${BRIGHT_RED}
-  printBox "${@}"
+  printBox "${ERROR_SYMBOL} "  "${@}"
   printf ${CLR_COLOR}
-
-#  for item in "${@}"; do
-#    if ${first}; then
-#      printBoxLine "${ERROR_SYMBOL}  ${item}"
-#      first=false
-#    else
-#      printBoxLine "   ${item}"
-#    fi
-#  done
-#
-#  printBoxBottom
-#  printf ${CLR_COLOR}
 }

@@ -180,7 +180,7 @@ runGtCmd() {
 
     *)
       gtPrintErrorBox "${GT_STATUS_INVALID_CMD}: \"${cmd}\""
-      printGtHelp
+      # printGtHelp
       ;;
   esac
 }
