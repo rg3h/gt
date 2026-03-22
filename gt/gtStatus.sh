@@ -190,9 +190,6 @@ gtShowStatus() {
   local fixMod="s/M /MODIFIED:  /"
   local fixDel="s/D /DELETED:   /"
 
-  # local sedCmd="${fixUntracked};${fixAdd};${fixMod};${fixDel}"
-  # local sedCmd="s/\t//g"
-  # local sedCmd="${delTabs}
   local sedCmd="${delTabs};${fixUntracked};${fixAdd};${fixMod};${fixDel}"
 
   if [[ ${cmdStatus} -eq 0 ]]; then
