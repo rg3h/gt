@@ -72,8 +72,12 @@ printBoxLine() {
 
   local width=66        # 70 wide but -4 for margin and vertical bars
   local inputStr="$@"   # all params collected together
-  # local inputAsList=("${(@s:\n:)inputStr}") # splits str on \n into an array
-  local inputAsList=("${(f)inputStr}")
+
+  local inputAsList=("${(@s:\n:)inputStr}") # splits str on \n into an array
+  # local inputAsList=("${(f)inputStr}")
+
+  inputAsList=("${(@s:\n:)inputStr}") # splits str on \n into an array
+
   local line=""         # store a line of the inputStr during processing
   local escFreeLine=""  # line after color escape codes have been removed
 

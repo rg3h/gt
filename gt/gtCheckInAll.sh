@@ -206,8 +206,10 @@ gtShowFilesToBePushed() {
   cmdOutput=$(git log -1 --pretty=format: --name-only 2>&1)
   cmdStatus=$?
 
+  # loop through a string printing index, each char and its ascii value:
   if [[ ${cmdStatus} -eq 0 ]]; then
-    globalFilesPushed="${cmdOutput}"  # globalFilesPushed is a global var
+    globalFilesPushed=("${(f)cmdOutput}")            # split on \n into array
+    globalFilesPushed=" ${(j:\n :)globalFilesPushed}" # put together with indent
   else
     local msg="Error getting files to be pushed"
     gtPrintErrorBox  "${msg}" "${cmdStatus} ${cmdOutput}"

@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-# @fileoverview testPrintBox tests gtPrintBox with various strings.
+# @fileoverview testGtPrintBox tests gtPrintBox with various strings.
 #                     _
 #  _      _      __ _| |_
 #  \\___()''o   / _` | __|

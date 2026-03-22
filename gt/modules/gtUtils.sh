@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-# @fileoverview gtUtil.sh utility functions
+# @fileoverview gtUtils.sh utility functions
 #                     _
 #  _      _      __ _| |_
 #  \\___()''o   / _` | __|

@@ -19,8 +19,7 @@ source ${FULL_PATH_NAME}/modules/gtStatusCodes.sh
 source ${FULL_PATH_NAME}/modules/gtCharCodes.sh
 source ${FULL_PATH_NAME}/modules/gtDebug.sh
 source ${FULL_PATH_NAME}/modules/gtPrintBox.sh
-source ${FULL_PATH_NAME}/modules/gtUtil.sh
-source ${FULL_PATH_NAME}/modules/gtGetOwner.sh
+source ${FULL_PATH_NAME}/modules/gtUtils.sh
 
 # command interface modules
 source ${FULL_PATH_NAME}/gtAddRepo.sh

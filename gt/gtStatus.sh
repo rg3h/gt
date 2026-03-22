@@ -169,8 +169,8 @@ gtShowStatus() {
         done
       fi
 
-      msgList=("${(o)msgList[@]}")                      # sort the list
-      localRepoChanges=$(printf "%s\n" "${msgList[@]}") # turn into \n sep str
+      msgList=("${(o)msgList[@]}")            # sort the list
+      localRepoChanges="${(j:\n:)msgList}"    # turn into \n separated str
     else
       errorMsg="${cmdOutput}";
     fi
