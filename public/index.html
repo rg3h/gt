@@ -116,7 +116,7 @@
     gt addRepo    | ar -- add a local and remote repo
     gt delRepo    | dr -- delete a remote repo but not the local one
     gt checkInAll | cia -- pull, add all, commit, and push
-    gt repoStatus | rs -- lists the status of the local and remote repo
+    gt status     | stat -- lists the status of the local and remote repo
   </pre>
 
   <br>
@@ -209,12 +209,12 @@
     <img src="./assets/images/gtCheckInAllHelpScreenshot.jpg"/>
   </div>
 
-  <h3>gt repoStatus | rs</h3>
+  <h3>gt status | stat</h3>
   gt repouStatus (gt rs) shows the status of the local repo <b>and</b>
   the remote repo (it is odd that git status does not do this, causing
   problems when you forget to pull).
   <div class="centeredImg">
-    <img src="./assets/images/gtRepoStatusHelpScreenshot.jpg"/>
+    <img src="./assets/images/gtStatusHelpScreenshot.jpg"/>
   </div>
 
   <h2>extensible zsh architecture</h2>
@@ -225,7 +225,7 @@
     gtAddRepo.sh
     gtDelRepo.sh
     gtListRepos.sh
-    gtRepoStatus.sh
+    gtStatus.sh
     modules/
       gtCharCodes.sh   -- TTY character controls to create the ascii boxes
       gtDebug.sh       -- debugging that can be turned on to see details

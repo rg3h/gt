@@ -28,7 +28,7 @@
       gt listRepos  | lr [-s name | date | public | private ]<br>
       gt addRepo    | ar myNewRepo [.] [--private]<br>
       gt delRepo    | dr myOldRepo [--yes]<br>
-      gt repoStatus | rs<br>
+      gt status | stat<br>
       gt checkInAll | cia "your check-in message"<br>
     </sup>
     <!--
