@@ -208,8 +208,9 @@ gtShowFilesToBePushed() {
 
   # loop through a string printing index, each char and its ascii value:
   if [[ ${cmdStatus} -eq 0 ]]; then
-    globalFilesPushed=("${(f)cmdOutput}")            # split on \n into array
-    globalFilesPushed=" ${(j:\n :)globalFilesPushed}" # put together with indent
+    # cmdOutput=("${(f)cmdOutput}")      # split on \n into array
+    # cmdOutput=" ${(j:\n :)cmdOutput}"  # put together with indent
+    globalFilesPushed=${cmdOutput}
   else
     local msg="Error getting files to be pushed"
     gtPrintErrorBox  "${msg}" "${cmdStatus} ${cmdOutput}"
