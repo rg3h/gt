@@ -100,7 +100,7 @@ printBoxLine() {
     if [[ ${excess} -gt 0 ]]; then
       local trailingEscCodes="${(e)line##*${escFreeLine}}"
       excess=$(( -1 * (${#escFreeLine} - ${width} + ${#trailingEscCodes} + 4) ))
-      line="${line[1,${excess}]}...${trailingEscCodes}"
+      line="${line[1,${excess}]}...${trailingEscCodes}${CLR_TEXT}"
     else
       padding=${(pl:$((-1 * ${excess})):: :)}
     fi

@@ -9,7 +9,7 @@
 #
 
 # global to all gt apps
-GT_VERSION="1.1.0"
+GT_VERSION="1.1.2"
 FULL_PATH_NAME="${${0:h}//\\//}"
 OWNER=$(gh api user -q .login)
 

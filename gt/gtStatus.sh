@@ -184,36 +184,37 @@ gtShowStatus() {
   fi
 
   ### get the remote repo status
-  local delTabs="s/\t//g"
-  local fixUntracked="s/?? /UNTRACKED: /"
-  local fixAdd="s/A /ADDED:     /"
-  local fixMod="s/M /MODIFIED:  /"
-  local fixDel="s/D /DELETED:   /"
 
-  local sedCmd="${delTabs};${fixUntracked};${fixAdd};${fixMod};${fixDel}"
-
+  # first fetch the remote which sticks the fetches in the .git dir
   if [[ ${cmdStatus} -eq 0 ]]; then
-    # first fetch the remote and stick it in the .git dir
     local fetchResults=$(git fetch --all 2>&1)
     cmdStatus=$?
-    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${fetchResults}"; break; fi
+    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${fetchResults}"; fi
+  fi
 
-    # now get the differences
+  # now get the differences
+  if [[ ${cmdStatus} -eq 0 ]]; then
     remoteRepoChanges=$(git diff --name-status main origin/main 2>&1)
     cmdStatus=$?
     if [[ ${cmdStatus} -eq 128 ]]; then
       remoteRepoChanges="empty remote repository"
       cmdStatus=0
-      break
     elif [[ ${cmdStatus} -ne 0 ]]; then
       errorMsg="${remoteRepoChanges}";
-      break;
     fi
+  fi
 
+  # parse the results into something more readable
+  if [[ ${cmdStatus} -eq 0 ]]; then
+    local delTabs="s/\t//g"
+    local fixUntracked="s/?? /UNTRACKED: /"
+    local fixAdd="s/A /ADDED:     /"
+    local fixMod="s/M /MODIFIED:  /"
+    local fixDel="s/D /DELETED:   /"
+    local sedCmd="${delTabs};${fixUntracked};${fixAdd};${fixMod};${fixDel}"
     remoteRepoChanges=$(echo "$remoteRepoChanges" | sed ${sedCmd} 2>&1)
     cmdStatus=$?
-
-    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${remoteRepoChanges}";break;fi
+    if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${remoteRepoChanges}";fi
 
     if [[ ${#remoteRepoChanges} -eq 0 ]]; then
       remoteRepoChanges="no changes"
