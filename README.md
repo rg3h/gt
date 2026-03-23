@@ -24,12 +24,13 @@
     initialization, and coordination with your local and remote repos.
     <br><br>
     <sup>
-      gt [--help]<br>
-      gt listRepos  | lr [-s name | date | public | private ]<br>
-      gt addRepo    | ar myNewRepo [.] [--private]<br>
-      gt delRepo    | dr myOldRepo [--yes]<br>
-      gt checkInAll | cia "your check-in message"<br>
-      gt status | stat<br>
+     <pre>
+      gt [--help]
+      gt listRepos  | lr [-s name | date | public | private ]
+      gt addRepo    | ar myNewRepo [.] [--private]
+      gt delRepo    | dr myOldRepo [--yes]
+      gt checkInAll | cia "your check-in message"
+      gt status | stat</pre>
     </sup>
     <!--
     <br><br>
