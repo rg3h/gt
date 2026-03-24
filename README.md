@@ -21,10 +21,10 @@
     <br><br>
     Just a few examples:
     <pre>
-gt lr                          list all of your repos sorted by date
-gt add newRepo                 add a new repo locally <b>and</b> remotely
-gt checkInAll "updated files"  pulls, adds changes, commits, and pushes
-gt status                      shows the local <b>and</b> remote repo status</pre>
+gt lr                list all of your repos sorted by date
+gt add newRepo       add a new repo locally <b>and</b> remotely
+gt checkInAll "msg"  pulls, adds changes, commits, and pushes
+gt status            shows the local <b>and</b> remote repo status</pre>
     gt has ample error checking, sensible initialization, and coordination
     between your local and remote repos. Eventually gt will support a 
     powerful and extensible model with recipes for solo and team development.
