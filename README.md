@@ -8,7 +8,7 @@
 <table align=center>
  <tr><td align=center width=400>
    <b>gt</b><br>
-   <sup>simplify git and github</sup>
+   <sup>tools to manage and simplify your git and github repos</sup>
   </td></tr>
     <tr><td align=center>
     <img width=300 src="./public/assets/images/logo.png"/>
@@ -16,12 +16,12 @@
  <tr><td align=left>
     <sup>
       gt is an extensible set of tools to simplify git and github.
-      Eventually it will support a powerful, consistent library-like model.
+      Eventually it will support a powerful, consistent, and extensible model.
     </sup>
     <br><br>
     This early version supports cross-platform command-line tools
     to manage your repos. There is ample error checking,
-    initialization, and coordination with your local and remote repos.
+    initialization, and coordination between your local and remote repos.
     <br><br>
     <sup>
      <pre>
@@ -30,7 +30,7 @@
       gt addRepo    | ar myNewRepo [.] [--private]
       gt delRepo    | dr myOldRepo [--yes]
       gt checkInAll | cia "your check-in message"
-      gt status | stat</pre>
+      gt status     | stat</pre>
     </sup>
     <!--
     <br><br>
