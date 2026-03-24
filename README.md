@@ -8,7 +8,7 @@
 <table align=center>
  <tr><td align=center width=400>
    <b>gt</b><br>
-   <sup>tools to simplify and manage your git and github repos</sup>
+   <sup>a tool to simplify your git and github repos</sup>
   </td></tr>
     <tr><td align=center>
     <img width=300 src="./public/assets/images/logo.png"/>
@@ -16,13 +16,17 @@
  <tr><td align=left>
     <sup>
     <b>gt</b> is a set of cross-platform command-line tools
-    to simplify using repos. &nbsp; <b>gt</b> is easy to use directly
+    to simplify using github repos. &nbsp; <b>gt</b> is easy to use directly
     from the command line, improving where gh left off.
-     <br>
-     Adding a new repo locally and remotely is as simple as
-     <pre>gt add newRepo  [--private]</pre>
-     Listing all of your repos, sorted by date, is just
-     <pre>gt lr</pre>
+    <br><br>
+    Listing all of your repos, sorted by date, is just
+    <code>gt lr</code><br>
+    Adding a new repo <b>both</b> locally and remotely is as simple as<br>
+    <code>gt add newRepo  [--private]</code>
+    <br>
+    Pulling, adding changes, commiting, and pushing is just<br>
+     <code>gt checkInAll "updated the database backend and API"</code>
+    <br><br>
     gt has ample error checking, initialization, and coordination
     between your local and remote repos. Eventually gt will support a 
     powerful and extensible model with recipes for solo and team development.
