@@ -18,8 +18,8 @@
     <b>gt</b> is a set of cross-platform command-line tools
     to simplify using repos. &nbsp; <b>gt</b> is easy to use directly
     from the command line, improving where gh left off.
-    <br>
-     For example, adding a new repo locally and remotely is as simple as
+     <br>
+     Adding a new repo locally and remotely is as simple as
      <pre>gt add newRepo  [--private]</pre>
      Listing all of your repos, sorted by date, is just
      <pre>gt lr</pre>
