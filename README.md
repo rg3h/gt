@@ -19,15 +19,13 @@
     to simplify using github repos. &nbsp; <b>gt</b> is easy to use directly
     from the command line, improving where gh left off.
     <br><br>
-    Listing all of your repos, sorted by date, is just
-    <code>gt lr</code><br>
-    Adding a new repo <b>both</b> locally and remotely is as simple as<br>
-    <code>gt add newRepo  [--private]</code>
-    <br>
-    Pulling, adding changes, commiting, and pushing is just<br>
-     <code>gt checkInAll "updated the database backend and API"</code>
-    <br><br>
-    gt has ample error checking, initialization, and coordination
+    Just a few examples:
+    <pre>
+gt lr                          list all of your repos sorted by date
+gt add newRepo                 add a new repo locally <b>and</b> remotely
+gt checkInAll "updated files"  pulls, adds changes, commits, and pushes
+gt status                      shows the local <b>and</b> remote repo status</pre>
+    gt has ample error checking, sensible initialization, and coordination
     between your local and remote repos. Eventually gt will support a 
     powerful and extensible model with recipes for solo and team development.
     </sup>
