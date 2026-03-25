@@ -25,7 +25,8 @@ cd testGtStatus
 rm -rf .git
 
 # create the test repo
-gt="../../gt/gt.bat"
+gt=(zsh ../../gt/gt.sh)
+
 cmdOutput=$(${gt} dr testGtStatus --yes 2>&1)   # represses any errors
 ${gt} ar testGtStatus .
 
