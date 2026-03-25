@@ -10,6 +10,7 @@
 
 # status codes
 GT_STATUS_COULD_NOT_ADD_REMOTE_REPO="Error: could not create the remote repo"
+GT_STATUS_COULD_NOT_CLONE_REMOTE_REPO="Error: could not clone the remote repo"
 GT_STATUS_COULD_NOT_DEL_REMOTE_REPO="Error: could not delete the remote repo"
 GT_STATUS_COULD_NOT_GIT_INIT="Error: could not git init"
 GT_STATUS_COULD_NOT_MKDIR="Error: cannot create the local repo directory"

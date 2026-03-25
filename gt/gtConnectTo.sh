@@ -1,6 +1,5 @@
 #!/usr/bin/zsh
-# @fileoverview gtAddRepo.sh adds a gethub repo locally and remotely
-#  gtAddRepo repoName [optional localRepoName ] --help --private
+# @fileoverview gtConnectTo.sh clones remote repo and connects the local to it
 #                     _
 #  _      _      __ _| |_
 #  \\___()''o   / _` | __|
@@ -9,53 +8,51 @@
 #               |___/
 #
 
-printGtAddRepoHelp() {
+printGtConnectToHelp() {
   local msg=""
 
   printBoxTop
-  msg="gt {addRepo | ar} remoteRepoName [localRepoName] [--private]"
+  msg="gt connectTo remoteRepoName [localRepoName | .]"
   printBoxLine "${BOLD}${msg}${CLR_COLOR}"
   printCrossBar
-  printBoxLine "adds a github remote repo and a local repo directory"
-  printBoxLine "  --help | -h | -? issues this help"
-  printBoxLine "  --private adds a private repo (default is public)"
+  printBoxLine "clones a github remote repo and connects the local repo to it"
+  printBoxLine "  --help | -h | -?   issues this help"
+  printBoxLine "  --allBranches | -a gets all branches as well"
   printBoxLine " "
   printBoxLine "examples:"
-  printBoxLine " gt addRepo myRepo   # add local and remote repo named myRepo"
-  printBoxLine " gt addRepo myRepo . # add remote w/ local repo in current dir"
-  printBoxLine " gt addRepo myRepo --private"
-  printBoxLine " gt addRepo myRepo myLocalRepoName"
-  printBoxLine " gt ar myRepo myLocalRepoName --private"
+  printBoxLine " gt connectTo myRepo   # connect to remote repo named myRepo"
+  printBoxLine " gt c2 myRepo abc      # connect to remote, name the local abc"
+  printBoxLine " gt c2 myRepo -a       # connect to remote getting all branches"
   printBoxBottom
 }
 
 
-# called after parsing gtAddRepo() args
-debugPrintGtAddRepoArgList() {
+# called after parsing gtConnectTo() args
+debugPrintGtConnectToArgList() {
   if [[ $(gtDebugIsOn) -eq 0 ]]; then return ; fi
 
   local resultStatus=$1
   local helpFlag=$2
-  local privateFlag=$3
+  local allBranchesFlag=$3
   local remoteRepo=$4
   local localRepo=$5
 
-  gtDebugPrint "gtAddRepo parsed arguments are..."
-  gtDebugPrint "  resultStatus  " ${resultStatus}
-  gtDebugPrint "  helpFlag      " ${helpFlag}
-  gtDebugPrint "  privateFlag   " ${privateFlag}
-  gtDebugPrint "  remoteRepo    " ${remoteRepo}
-  gtDebugPrint "  localRepo     " ${localRepo}
+  gtDebugPrint "gtConnectTo parsed arguments are..."
+  gtDebugPrint "  resultStatus    " ${resultStatus}
+  gtDebugPrint "  helpFlag        " ${helpFlag}
+  gtDebugPrint "  allBranchesFlag " ${allBranchesFlag}
+  gtDebugPrint "  remoteRepo      " ${remoteRepo}
+  gtDebugPrint "  localRepo       " ${localRepo}
 }
 
 
 # process the argList into an array of GT parameters with cmd as first element
-processGtAddRepoArgList() {
+processGtConnectToArgList() {
   local resultStatus=${GT_STATUS_OK}
   local remoteRepoFound=0
   local localRepoFound=0
-  local privateFlag=0
   local helpFlag=0
+  local allBranchesFlag=0
   local remoteRepo="none"
   local localRepo="none"
   local arg=""
@@ -71,8 +68,8 @@ processGtAddRepoArgList() {
           helpFlag=1
           ;;
 
-        "--private")
-          privateFlag=1
+        "--allbranches" | "-a")
+          allBranchesFlag=1
           ;;
 
         *)
@@ -103,27 +100,27 @@ processGtAddRepoArgList() {
     fi
   fi
 
-  print -r -- ${(qq)resultStatus} ${helpFlag} ${privateFlag} \
-              ${remoteRepo} ${localRepo}
+  print -r -- ${(qq)resultStatus} ${helpFlag} ${allBranchesFlag} \
+        ${remoteRepo} ${localRepo}
 }
 
 
 # if helpFlag set, print help and exit
-handleAddRepoHelpFlag() {
+handleConnectToHelpFlag() {
   local helpFlag=${1}
   if [[ ${helpFlag} -eq 1 ]]; then
-    printGtAddRepoHelp
+    printGtConnectToHelp
     exit
   fi
 }
 
 
 # if resultStatus not ok, print error and quit
-handleAddRepoResultStatus() {
+handleConnectToResultStatus() {
   local resultStatus=${1}
   if [[ ${resultStatus} != ${GT_STATUS_OK} ]]; then
     gtPrintErrorBox ${resultStatus}
-    printGtAddRepoHelp
+    printGtConnectToHelp
     exit
   fi
 }
@@ -216,70 +213,78 @@ checkBothRepoNamesAreValid() {
 }
 
 
-# makeRemoteRepo "${remoteRepo}" "${localRepo}" ${privateFlag}
-makeRemoteRepo() {
+# cloneRemoteRepo "${remoteRepo}" "${localRepo}" "${allBranchesFlag}"
+cloneRemoteRepo() {
   local remoteRepo="${1}"
   local localRepo="${2}"
-  local privateFlag=${3}
+  local allBranchesFlag="${3}"
   local cmd=""
   local cmdStatus=0
   local cmdOutput=""
-  local pubPrivFlag="public"
+  local branchArg=""
+  local msg1=""
+  local msg2=""
 
-  if [[ ${privateFlag} -eq 1 ]]; then pubPrivFlag="private"; fi
+  if [[ ${allBranchesFlag} -eq 1 ]]; then branchArg="--no-single-branch"; fi
 
-  cmd=(gh repo create "${remoteRepo}" --source="${localRepo}" --${pubPrivFlag})
-  gtDebugPrint "create repo cmd: ${cmd}"
+  cmd=(gh repo clone "${remoteRepo}" "${localRepo}" -- --depth=1 ${branchArg})
+
+  gtDebugPrint "clone repo cmd: ${cmd}"
 
   cmdOutput=$("${cmd[@]}" 2>&1)
   cmdStatus=$?
 
   if [[ ${cmdStatus} -ne 0 ]]; then
-    gtDebugPrint "did not create the remote repo:" ${remoteRepo}
+    gtDebugPrint "did not clone the remote repo:" ${remoteRepo}
     gtDebugPrint "return status" "${cmdStatus}"
     gtDebugPrint "return cmdOutput" "${cmdOutput}"
 
-    local errorMsg="${GT_STATUS_COULD_NOT_ADD_REMOTE_REPO}: ${remoteRepo}"
+    local errorMsg="${GT_STATUS_COULD_NOT_CLONE_REMOTE_REPO}: ${remoteRepo}"
     gtPrintErrorBox ${errorMsg} ${cmdOutput}
     exit
   fi
 
-  print "created the remote ${pubPrivFlag} repo: ${cmdOutput}"
+  msg1="Success! Cloned remote repo ${BRIGHT_CYAN}${remoteRepo}${CLR_COLOR}"
+  msg2="into local directory ${BRIGHT_CYAN}${localRepo}${CLR_COLOR}"
+  print ${msg1} ${msg2}
 }
 
 
-# called by gt.sh -- effectively the main entry point for gtAddRepo
-gtAddRepo() {
+# called by gt.sh -- effectively the main entry point for gtConnectTo
+gtConnectTo() {
   # gtDebugOn
 
   # process the input args and store the results in an array
-  local resultList=("${(@Q)${(z)$(processGtAddRepoArgList ${@})}}")
+  local resultList=("${(@Q)${(z)$(processGtConnectToArgList ${@})}}")
   local resultStatus=${resultList[1]}
   local helpFlag=${resultList[2]}
-  local privateFlag=${resultList[3]}
+  local allBranchesFlag=${resultList[3]}
   local remoteRepo=${resultList[4]}
   local localRepo=${resultList[5]}
 
-  debugPrintGtAddRepoArgList "${resultStatus}"  \
-                             "${helpFlag}"      \
-                             "${privateFlag}"   \
-                             "${remoteRepo}"    \
-                             "${localRepo}"
+  debugPrintGtConnectToArgList "${resultStatus}"    \
+                               "${helpFlag}"        \
+                               "${allBranchesFlag}" \
+                               "${remoteRepo}"      \
+                               "${localRepo}"
 
-  handleAddRepoHelpFlag ${helpFlag}          # if --help print and quit
-  handleAddRepoResultStatus ${resultStatus}  # if error w/ args, print and quit
+  handleConnectToHelpFlag ${helpFlag}          # if --help print and quit
+  handleConnectToResultStatus ${resultStatus}  # if args error, print and quit
 
   # if no localRepo name then copy remoteRepo name
   if [[ ${localRepo} == "none" ]]; then localRepo="${remoteRepo}"; fi
 
   checkBothRepoNamesAreValid ${remoteRepo} ${localRepo}
-  checkRemoteRepoDoesNotExist ${remoteRepo}
   checkLocalRepoDoesNotExist ${localRepo}
 
-  # everything is good, make the remote and local repo
-  gtDebugPrint "Everything is good. Making the local repo:" "${localRepo}"
-  makeLocalRepo ${localRepo}
+  # attempting to clone might reveal this
+  # checkRemoteRepoExists ${remoteRepo}
 
-  gtDebugPrint "Everything is good. Making the remote repo:" "${remoteRepo}"
-  makeRemoteRepo "${remoteRepo}" "${localRepo}" ${privateFlag}
+  # everything is good, clone the remote and connect the local to it
+  local msg="Everything is good. cloning the remote repo:"
+  gtDebugPrint "${msg}" "${remoteRepo}" "into local directory" "${localRepo}"
+
+  cloneRemoteRepo "${remoteRepo}" "${localRepo}" "${allBranchesFlag}"
+
+  # connectLocalRepo ${localRepo}
 }

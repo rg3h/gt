@@ -9,7 +9,7 @@
 #
 
 # global to all gt apps
-GT_VERSION="1.1.2"
+GT_VERSION="1.1.3"
 FULL_PATH_NAME="${${0:h}//\\//}"
 OWNER=$(gh api user -q .login)
 
@@ -24,6 +24,7 @@ source ${FULL_PATH_NAME}/modules/gtUtils.sh
 # command interface modules
 source ${FULL_PATH_NAME}/gtAddRepo.sh
 source ${FULL_PATH_NAME}/gtCheckInAll.sh
+source ${FULL_PATH_NAME}/gtConnectTo.sh
 source ${FULL_PATH_NAME}/gtDelRepo.sh
 source ${FULL_PATH_NAME}/gtListRepos.sh
 source ${FULL_PATH_NAME}/gtStatus.sh
@@ -36,13 +37,14 @@ printGtHelp() {
   local msg="${BOLD}$appName $appDescription${BOLD_OFF}"
   printBoxLine "$msg"
   printCrossBar
-  printBoxLine "help       | --help    | -h | -? show this help"
-  printBoxLine "version    | --version | -v .....show the version (v$GT_VERSION)"
-  printBoxLine "listRepos  | lr .................list your gitHub repos"
-  printBoxLine "addRepo    | ar .................add a new repo"
-  printBoxLine "delRepo    | dr .................delete a repo from github"
-  printBoxLine "checkInAll | cia ................git pull, add, commit, push"
-  printBoxLine "status ..........................show status of the current repo"
+  printBoxLine "help       | --help | -h | -? show this help"
+  printBoxLine "version    | --version   | -v ..show the version (v$GT_VERSION)"
+  printBoxLine "listRepos  | lr .......list remote gitHub repos"
+  printBoxLine "addRepo    | ar .......add a new repo"
+  printBoxLine "delRepo    | dr .......delete a repo just from github"
+  printBoxLine "checkInAll | cia ......git pull, add, commit, push"
+  printBoxLine "connectTo  | c2........clones remote and connects local to it"
+  printBoxLine "status ................show status of the current repo"
   printBoxLine
   printBoxLine "examples:"
   printBoxLine " gt addRepo myNewRepo"
@@ -155,6 +157,10 @@ runGtCmd() {
 
     "checkinall" | "cia")
       gtCheckInAll ${paramList}
+      ;;
+
+    "connectto" | "c2")
+      gtConnectTo ${paramList}
       ;;
 
     "delrepo" | "dr")
