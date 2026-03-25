@@ -15,6 +15,7 @@ source ${FULL_PATH_NAME}/modules/gtPrintBox.sh
 source ${FULL_PATH_NAME}/modules/gtUtils.sh
 source ${FULL_PATH_NAME}/gtStatus.sh
 
+local cmdOutput=""
 testDir="testGtStatus"
 
 # create the test directory
@@ -25,7 +26,7 @@ rm -rf .git
 
 # create the test repo
 gt="../../gt/gt.bat"
-${gt} dr testGtStatus --yes
+cmdOutput=$(${gt} dr testGtStatus --yes 2>&1)   # represses any errors
 ${gt} ar testGtStatus .
 
 # create the initial set of test files for the repo

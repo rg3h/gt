@@ -2,17 +2,15 @@
 'use strict';
 
 //const execSync = require('child_process').execSync
-const {execSync} = require('child_process'); // eslint-disable-line no-undef
-const fs = require('fs');                    // eslint-disable-line no-undef
-const http = require('http');                // eslint-disable-line no-undef
-const https = require('https');              // eslint-disable-line no-undef
-const os = require('os');                    // eslint-disable-line no-undef
-const pathObj = require('path');             // eslint-disable-line no-undef
-const { parse } = require('querystring');    // eslint-disable-line no-undef
-const urlObj = require('url');               // eslint-disable-line no-undef
+const {execSync} = require('child_process');  // eslint-disable-line no-undef
+const fs = require('fs');                     // eslint-disable-line no-undef
+const http = require('http');                 // eslint-disable-line no-undef
+const https = require('https');               // eslint-disable-line no-undef
+const os = require('os');                     // eslint-disable-line no-undef
+const pathObj = require('path');              // eslint-disable-line no-undef
+const { parse } = require('querystring');     // eslint-disable-line no-undef
+const appPackage = require('./package.json'); // eslint-disable-line no-undef
 
-// const APPNAME = 'simpleServer';
-// const VERSION = '3.0.1';
 const SECURE_PORT = 8000;
 const REG_PORT    = 8001;
 let ipAddressList = [];
@@ -24,15 +22,14 @@ main();
 
 function main() {
   processArgs();
-  console.log(getDate(false));
-  console.log('webroot:', webRoot);
+  console.log(appPackage.name, getDate(false), 'webroot:', webRoot);
 
   let cmd = 'openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 ' +
     '-subj "/C=US/ST=ofMind/L=whereever/O=Company/CN=localhost" ' +
     '-keyout key.pem -out cert.pem 2> NUL';
   // let result = execSync(cmd).toString();  // returns the stdout of the cmd
-  execSync(cmd).toString();  // returns the stdout of the cmd
   // console.log('result', result);
+  execSync(cmd).toString();  // returns the stdout of the cmd
 
   const options = {
     key: fs.readFileSync('key.pem'),
@@ -40,7 +37,6 @@ function main() {
   };
 
   cmd = 'rm -f ./csr.pem ./key.pem ./cert.pem'
-  // result = execSync(cmd).toString();
   execSync(cmd).toString();
 
   ipAddressList = getIpAddressList();
@@ -68,7 +64,7 @@ function processArgs() {
       // eslint-disable-next-line no-undef
       param = process.argv[++i] || ''; // get next param as the webroot
       // eslint-disable-next-line no-undef
-      webRoot = frontSlash(pathObj.normalize(__dirname + '/' + param + '/'));
+      webRoot = frontSlash(pathObj.normalize(param + '/'));
       break;
     }
   }
@@ -183,7 +179,10 @@ function handleRequest(request, response) {
 }
 
 function handleGetRequest(request, response) {
-  const url = urlObj.parse(request.url, true);
+  const protocol= request.connection.encrypted ? 'https' : 'http';
+  const baseUrl= protocol + '://localhost:' + request.socket.localPort
+  const url = new URL(request.url, baseUrl);
+
   const fileName = url.pathname;
   const paramObj = url.query;
 
@@ -266,14 +265,14 @@ function getDate(compact=true) {
         hour12: false,
       } :
       {
-        weekday: 'long',
+        weekday: 'short',
         day: '2-digit',
         month: 'long',
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        fractionalSecondDigits:3,
+        // fractionalSecondDigits:3,
         hour12: false,
       };
 
