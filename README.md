@@ -19,7 +19,7 @@
     to simplify using github repos. &nbsp; <b>gt</b> is easy to use directly
     from the command line, improving where gh left off.
     <br><br>
-    Just a few examples:
+    A few examples:
     <pre>
 gt lr                list all of your repos sorted by date
 gt add newRepo       add a new repo locally <b>and</b> remotely
