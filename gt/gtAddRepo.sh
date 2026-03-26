@@ -176,7 +176,7 @@ makeLocalRepo() {
     cmdOutput=$(mkdir -v "${localRepo}" 2>&1)
     cmdStatus=$?
     if [[ ${cmdStatus} -ne 0 ]]; then
-      gtPrintErrorBox ${GT_STATUS_COULD_NOT_MKDIR} ${cmdOutput}
+      gtPrintErrorBox "${GT_STATUS_COULD_NOT_MKDIR}\n" ${cmdOutput}
       exit
     fi
   fi
@@ -240,7 +240,7 @@ makeRemoteRepo() {
     gtDebugPrint "return cmdOutput" "${cmdOutput}"
 
     local errorMsg="${GT_STATUS_COULD_NOT_ADD_REMOTE_REPO}: ${remoteRepo}"
-    gtPrintErrorBox ${errorMsg} ${cmdOutput}
+    gtPrintErrorBox "${errorMsg}\n" ${cmdOutput}
     exit
   fi
 

@@ -26,3 +26,8 @@ printBox "${GREEN}This is a green line that is very long so we can see that it i
 printBox "AAAThis line exactly fits and should have no padding or truncation"
 printBox "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAThis line is 1 character short"
 printBox "AAAAAAAAAAAAAAAAAAThis line is 1 character longer than it should be"
+
+local cmdOutput="this is why we cannot have nice things but this is a very long line to test things and then\nanother line shows up and it is also very long and a trouble maker so we shalle see"
+
+GT_STATUS_COULD_NOT_MKDIR="Error: cannot create the local repo directory"
+gtPrintErrorBox "${GT_STATUS_COULD_NOT_MKDIR}\n" ${cmdOutput}

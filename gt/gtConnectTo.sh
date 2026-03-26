@@ -126,22 +126,6 @@ handleConnectToResultStatus() {
 }
 
 
-# if the remote repo already exists, issue an error and exit
-checkRemoteRepoDoesNotExist() {
-  local remoteRepo=${1}
-  local cmdStatus=0
-
-  $(gh repo view ${OWNER}/${remoteRepo} >/dev/null 2>&1)
-  cmdStatus=$?
-
-  # cmdStatus = 0 means the repo exists
-  if [[ ${cmdStatus} -eq 0 ]]; then
-    gtPrintErrorBox "${GT_STATUS_REMOTE_REPO_EXISTS}: ${OWNER}/${remoteRepo}"
-    exit
-  fi
-}
-
-
 # if the local repo is a "." and there is a .git then fail
 # if the local repo is another directory, if it already esists, then fail
 checkLocalRepoDoesNotExist () {
@@ -159,36 +143,6 @@ checkLocalRepoDoesNotExist () {
       exit
     fi
   fi
-}
-
-
-# if the dir name is not "." create a local directory as a local git repo
-makeLocalRepo() {
-  local localRepo=${1}
-  local cmdStatus=0
-  local cmdOutput=""
-
-  # if not "." then make the directory
-  if [[ "${localRepo}" != "." ]]; then
-    cmdOutput=$(mkdir -v "${localRepo}" 2>&1)
-    cmdStatus=$?
-    if [[ ${cmdStatus} -ne 0 ]]; then
-      gtPrintErrorBox ${GT_STATUS_COULD_NOT_MKDIR} ${cmdOutput}
-      exit
-    fi
-  fi
-
-  # now git init the local directory ("." or the named one)
-  cmdOutput=$(git -C ${localRepo} init 2>&1)
-  cmdStatus=$?
-
-  if [[ ${cmdStatus} -ne 0 ]]; then
-    gtPrintErrorBox "${GT_STATUS_COULD_NOT_GIT_INIT} ${localRepo}" ${cmdOutput}
-    print "You may need to remove the local directory or .git"
-    exit
-  fi
-
-  print "created the local repository in: ${localRepo}"
 }
 
 
@@ -224,6 +178,7 @@ cloneRemoteRepo() {
   local branchArg=""
   local msg1=""
   local msg2=""
+  local errorMsg=""
 
   if [[ ${allBranchesFlag} -eq 1 ]]; then branchArg="--no-single-branch"; fi
 
@@ -239,8 +194,14 @@ cloneRemoteRepo() {
     gtDebugPrint "return status" "${cmdStatus}"
     gtDebugPrint "return cmdOutput" "${cmdOutput}"
 
-    local errorMsg="${GT_STATUS_COULD_NOT_CLONE_REMOTE_REPO}: ${remoteRepo}"
-    gtPrintErrorBox ${errorMsg} ${cmdOutput}
+    if [[ "${cmdOutput}" == *"Could not resolve"* ]]; then
+      errorMsg="${GT_STATUS_REMOTE_REPO_DOES_NOT_EXIST}: ${remoteRepo}"
+    else
+      errorMsg="${GT_STATUS_COULD_NOT_CLONE_REMOTE_REPO}: ${remoteRepo}\n"
+      errorMsg+="$cmdOutput}"
+    fi
+
+    gtPrintErrorBox "${errorMsg}"
     exit
   fi
 
@@ -276,9 +237,6 @@ gtConnectTo() {
 
   checkBothRepoNamesAreValid ${remoteRepo} ${localRepo}
   checkLocalRepoDoesNotExist ${localRepo}
-
-  # attempting to clone might reveal this
-  # checkRemoteRepoExists ${remoteRepo}
 
   # everything is good, clone the remote and connect the local to it
   local msg="Everything is good. cloning the remote repo:"

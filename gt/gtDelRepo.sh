@@ -151,7 +151,7 @@ deleteRemoteRepo() {
 
     if [[ ${cmdStatus} -ne 0 ]]; then
       local errorMsg="${GT_STATUS_COULD_NOT_DEL_REMOTE_REPO}: ${remoteRepo}"
-      gtPrintErrorBox ${errorMsg} ${cmdOutput}
+      gtPrintErrorBox "${errorMsg}\n" ${cmdOutput}
       exit
     else
       print "deleted the remote repo" "${OWNER}"/"${remoteRepo}"

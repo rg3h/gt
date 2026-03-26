@@ -99,7 +99,8 @@ printBoxLine() {
     if [[ ${excess} -gt 0 ]]; then
       local trailingEscCodes="${(e)line##*${escFreeLine}}"
       excess=$(( -1 * (${#escFreeLine} - ${width} + ${#trailingEscCodes} + 4) ))
-      line="${line[1,${excess}]}...${trailingEscCodes}${CLR_TEXT}"
+      #line="${line[1,${excess}]}...${trailingEscCodes}${CLR_TEXT}"
+      line="${line[1,${excess}]}...${trailingEscCodes}"
     else
       padding=${(pl:$((-1 * ${excess})):: :)}
     fi
@@ -136,8 +137,6 @@ gtPrintBoxWithHeader() {
 
 # print a red box with an error symbol in it
 gtPrintErrorBox() {
-  local first=true
-
   printf ${BRIGHT_RED}
   printBox "${ERROR_SYMBOL} "  "${@}"
   printf ${CLR_COLOR}

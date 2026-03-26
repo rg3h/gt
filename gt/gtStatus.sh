@@ -158,7 +158,7 @@ gtShowStatus() {
               msgList+=${BRIGHT_CYAN}"MODIFIED:  ${filename}"${CLR_COLOR}
               ;;
 
-            "D " | " D")
+            "D " | " D" | "AD")
               msgList+=${BRIGHT_RED}"DELETED:   ${filename}"${CLR_COLOR}
               ;;
 
