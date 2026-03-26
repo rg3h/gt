@@ -106,7 +106,7 @@ processGtDelRepoArgList() {
   else
     # if we did not find a remoteRepo, set the status
     if [[ "${remoteRepoFound}" -eq 0 ]]; then
-      resultStatus="${GT_STATUS_NO_REMOTE_REPO_NAME}"
+      resultStatus="${GT_STATUS_MISSING_REMOTE_REPO_NAME}"
     fi
   fi
 
