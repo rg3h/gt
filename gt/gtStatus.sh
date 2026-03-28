@@ -204,14 +204,16 @@ gtShowStatus() {
     fi
   fi
 
+  print "remoteRepoChanges" ${remoteRepoChanges}
+  print " "
   # parse the results into something more readable
   if [[ ${cmdStatus} -eq 0 ]]; then
+    local fixUntracked="s/??\t/UNTRACKED: /"
+    local fixAdd="s/A\t/ADDED:     /"
+    local fixMod="s/M\t/MODIFIED:  /"
+    local fixDel="s/D\t/DELETED:   /"
     local delTabs="s/\t//g"
-    local fixUntracked="s/?? /UNTRACKED: /"
-    local fixAdd="s/A /ADDED:     /"
-    local fixMod="s/M /MODIFIED:  /"
-    local fixDel="s/D /DELETED:   /"
-    local sedCmd="${delTabs};${fixUntracked};${fixAdd};${fixMod};${fixDel}"
+    local sedCmd="${fixUntracked};${fixAdd};${fixMod};${fixDel};${delTabs}"
     remoteRepoChanges=$(echo "$remoteRepoChanges" | sed ${sedCmd} 2>&1)
     cmdStatus=$?
     if [[ ${cmdStatus} -ne 0 ]]; then errorMsg="${remoteRepoChanges}";fi
